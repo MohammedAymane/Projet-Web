@@ -1,12 +1,13 @@
 <?php
 session_start();
 include "dbFunctions.php";
+include "authentication.php";
 if (!isset($_SESSION["loggedIn"])) {
     $_SESSION["loggedIn"] = false;
 }
-if ($_SESSION["loggedIn"]) {
-    header("Location:index.php");
-}
+
+redirectIn();
+
 if (sizeOf($_POST) > 0) {
     if ($_POST["email"] == "") {
         echo
