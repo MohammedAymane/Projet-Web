@@ -10,6 +10,8 @@ function addUser($nom, $prenom, $email, $telephone, $password2, $service)
         $sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES (?, ?, ?, ?, ?, ?)";
         $req = $pdo->prepare($sql);
         $req->execute([$prenom, $nom, $email, $telephone, $password2, $service]);
+        //close connection
+        $pdo = null;
     } catch (PDOException $e) {
         return "Connection failed: " . $e->getMessage();
     }
@@ -27,6 +29,8 @@ function checkUser($email)
         $req = $pdo->prepare($sql);
         $req->execute([$email]);
         $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
         if (count($result) > 0) {
             return true;
         } else {
@@ -49,6 +53,8 @@ function loginUser($email, $password2)
         $req = $pdo->prepare($sql);
         $req->execute([$email]);
         $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
         if (count($result) > 0) {
             if (password_verify($password2, $result[0]["password"])) {
                 return true;
