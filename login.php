@@ -23,20 +23,26 @@ if (sizeOf($_POST) > 0) {
                         </div>';
     } else {
         $user = loginUser(htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["password"]));
-        if ($user[0]) {
-            $_SESSION["loggedIn"] = true;
-            $_SESSION["id"] = $user[1][0];
-            $_SESSION["token"] = md5(time() * rand(1, 574) . $_SESSION["id"]);
-            $_SESSION["firstName"] = $user[1][1];
-            $_SESSION["lastName"] = $user[1][2];
-            $_SESSION["role"] = $user[1][3];
-
-            header("Location:index.php");
+        if ($user["status"] == "success") {
+            if (!$user["result"]) {
+                echo '
+                    <div class="alert alert-danger alert-dismissible fade show">
+                        <strong>Error!</strong> Email ou mot de passe incorrecte
+                    </div>';
+            } else {
+                $_SESSION["loggedIn"] = true;
+                $_SESSION["id"] = $user["result"][1][0];
+                $_SESSION["token"] = md5(time() * rand(1, 574) . $_SESSION["id"]);
+                $_SESSION["firstName"] = $user["result"][1][1];
+                $_SESSION["lastName"] = $user["result"][1][2];
+                $_SESSION["role"] = $user["result"][1][3];
+                header("Location:index.php");
+            }
         } else {
             echo '
-                    <div class="alert alert-danger alert-dismissible fade show">
-                        <strong>Error!</strong> ' . $user[1] . '.
-                    </div>';
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <strong>Error!</strong>Erreur de connexion, veuillez réessayer.
+                </div>';
         }
     }
 }

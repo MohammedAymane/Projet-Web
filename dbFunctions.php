@@ -1,6 +1,9 @@
 <?php
+
+
+include_once "./classes/user.class.php";
 //create function to add user
-function addUser($nom, $prenom, $email, $telephone, $password2, $service)
+function addUser($newUser)
 {
     include "config.php";
     // Create connection with mysql database using pdo surrended by try catch
@@ -9,21 +12,23 @@ function addUser($nom, $prenom, $email, $telephone, $password2, $service)
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES (?, ?, ?, ?, ?, ?)";
         $req = $pdo->prepare($sql);
-        $req->execute([$prenom, $nom, $email, $telephone, $password2, $service]);
+        $req->execute(array($newUser->getFirstname(), $newUser->getLastname(), $newUser->getEmail(), $newUser->getPhone(), $newUser->getPassword(), $newUser->getService()));
         //close connection
         $pdo = null;
-        echo '
-                            <div class="mt-3 alert alert-success alert-dismissible fade show">
+
+        return [
+            "status" => "success",
+            "result" => true
+        ];
+        $s = '<div class="mt-3 alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> Vous êtes inscrit maintenant.
                                 <a href="login.php">Connectez vous.</a>
                             </div>';
     } catch (PDOException $e) {
-        echo '
-                            <div class="mt-3 alert alert-success alert-dismissible fade show">
-                                <strong>Error!</strong> Une erreur s\'est produite, réessayez une autre fois.
-                                <a href="login.php">Connectez vous.</a>
-                            </div>';
-        return "Connection failed: " . $e->getMessage();
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
     }
 }
 
@@ -42,12 +47,21 @@ function checkUser($email)
         //close connection
         $pdo = null;
         if (count($result) > 0) {
-            return true;
+            return [
+                "status" => "success",
+                "result" => true
+            ];
         } else {
-            return false;
+            return [
+                "status" => "success",
+                "result" => false
+            ];
         }
     } catch (PDOException $e) {
-        return "Connection failed: " . $e->getMessage();
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
     }
 }
 
@@ -65,17 +79,14 @@ function loginUser($email, $password2)
         $result = $req->fetchAll();
         //close connection
         $pdo = null;
-        if (count($result) > 0) {
-            if (password_verify($password2, $result[0]["password"])) {
-                return [true, [$result[0]["Id"], $result[0]["firstName"], $result[0]["lastName"], $result[0]["role"]]];
-            } else {
-                return
-                    [false, "Email mot de passe incorrect"];
-            }
-        } else {
-            return [false, "Email mot de passe incorrect"];
-        }
+        if (count($result) > 0 && password_verify($password2, $result[0]["password"]))
+            return ["status" => "success", "result" => [true, $result[0]]];
+
+        return ["status" => "success", "result" => false];
     } catch (PDOException $e) {
-        return "Connection failed: " . $e->getMessage();
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
     }
 }

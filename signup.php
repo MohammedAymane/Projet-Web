@@ -55,18 +55,34 @@
                     </div>';
                 } else {
                     include "dbFunctions.php";
-                    if (checkUser(htmlspecialchars($_POST["email"]))) {
-                        echo '
+                    $exists = checkUser(htmlspecialchars($_POST["email"]));
+                    if ($exists["status"] == "success") {
+                        if ($exists["result"]) {
+                            echo '
                         <div class="mt-3 alert alert-danger alert-dismissible fade show">
                             <strong>Error!</strong> Adresse email déjà utilisée.
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>';
-                        // show a modal to inform the user that the user already exists
-
+                        } else {
+                            $user = new User(htmlspecialchars($_POST["firstName"]), htmlspecialchars($_POST["lastName"]), htmlspecialchars($_POST["email"]), password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT), "Employee", htmlspecialchars($_POST["service"]), htmlspecialchars($_POST["phone"]));
+                            //insert user into database
+                            if (addUser($user)) {
+                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
+                                <strong>Success!</strong> Vous êtes inscrit maintenant.
+                                <a href="login.php">Connectez vous.</a>
+                            </div>';
+                            } else {
+                                echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                                <strong>Erreur!</strong> Erreur lors de l'inscription.
+                                <a href='login.php'>Connectez vous.</a>
+                            </div>";
+                            };
+                        }
                     } else {
-                        $user = new User(htmlspecialchars($_POST["firstName"]), htmlspecialchars($_POST["lastName"]), htmlspecialchars($_POST["email"]), password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT), "Employee", htmlspecialchars($_POST["service"]), htmlspecialchars($_POST["phone"]));
-                        //insert user into database
-                        addUser($lastName, $firstName, $email, $phone, $hashedPassword, $service);
+                        echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                                <strong>Erreur!</strong> Erreur lors de l'inscription.
+                                <a href='login.php'>Connectez vous.</a>
+                            </div>";
                     }
                 }
             }

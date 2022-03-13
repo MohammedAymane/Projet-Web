@@ -8,8 +8,9 @@ class User
     private $password;
     private $role;
     private $service;
+    private $phone;
 
-    public function __construct($firstname, $lastname, $email, $password, $role, $service)
+    public function __construct($firstname, $lastname, $email, $password, $role, $service, $phone)
     {
         $this->firstname = $firstname;
         $this->lastname = $lastname;
@@ -17,8 +18,14 @@ class User
         $this->password = $password;
         $this->role = $role;
         $this->service = $service;
+        $this->phone = $phone;
     }
 
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
     public function getFirstname()
     {
         return $this->firstname;
