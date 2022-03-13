@@ -5,7 +5,7 @@ include_once "./classes/user.class.php";
 //create function to add user
 function addUser($newUser)
 {
-    include "config.php";
+    include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
@@ -35,7 +35,7 @@ function addUser($newUser)
 //create function to check if user exists with email
 function checkUser($email)
 {
-    include "config.php";
+    include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
@@ -68,7 +68,7 @@ function checkUser($email)
 //create a function to login a user
 function loginUser($email, $password2)
 {
-    include "config.php";
+    include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
