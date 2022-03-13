@@ -1,6 +1,6 @@
 <?php
-include "dbFunctions.php";
-include "authentication.php";
+include "./services/dbFunctions.php";
+include "./services/authentication.php";
 if (!isset($_SESSION["loggedIn"])) {
     $_SESSION["loggedIn"] = false;
 }

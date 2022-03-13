@@ -54,7 +54,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                     </div>';
                 } else {
-                    include "dbFunctions.php";
+                    include "./services/dbFunctions.php";
                     $exists = checkUser(htmlspecialchars($_POST["email"]));
                     if ($exists["status"] == "success") {
                         if ($exists["result"]) {
