@@ -55,8 +55,7 @@
                     </div>';
                 } else {
                     include "dbFunctions.php";
-                    $email = htmlspecialchars($_POST["email"]);
-                    if (checkUser($email)) {
+                    if (checkUser(htmlspecialchars($_POST["email"]))) {
                         echo '
                         <div class="mt-3 alert alert-danger alert-dismissible fade show">
                             <strong>Error!</strong> Adresse email déjà utilisée.
@@ -65,12 +64,7 @@
                         // show a modal to inform the user that the user already exists
 
                     } else {
-                        //get user informations from form
-                        $hashedPassword = password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT);
-                        $service = htmlspecialchars($_POST["service"]);
-                        $firstName = htmlspecialchars($_POST["firstName"]);
-                        $lastName = htmlspecialchars($_POST["lastName"]);
-                        $phone = htmlspecialchars($_POST["phone"]);
+                        $user = new User(htmlspecialchars($_POST["firstName"]), htmlspecialchars($_POST["lastName"]), htmlspecialchars($_POST["email"]), password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT), "Employee", htmlspecialchars($_POST["service"]), htmlspecialchars($_POST["phone"]));
                         //insert user into database
                         addUser($lastName, $firstName, $email, $phone, $hashedPassword, $service);
                     }

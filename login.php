@@ -35,7 +35,7 @@ if (sizeOf($_POST) > 0) {
         } else {
             echo '
                     <div class="alert alert-danger alert-dismissible fade show">
-                        <strong>Error!</strong> `$user[1]`.
+                        <strong>Error!</strong> ' . $user[1] . '.
                     </div>';
         }
     }
