@@ -1,8 +1,9 @@
 <?php
+session_start();
 // create function to redirect to a page
 function redirectIn()
 {
-    if ($_SESSION["loggedIn"]) {
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]) {
         header("Location:index.php");
         die();
     }
@@ -11,7 +12,7 @@ function redirectIn()
 // create function to redirect out
 function redirectOut()
 {
-    if (!$_SESSION["loggedIn"]) {
+    if (isset($_SESSION["loggedIn"]) && !$_SESSION["loggedIn"]) {
         header("Location:login.php");
         die();
     }

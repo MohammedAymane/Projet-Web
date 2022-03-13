@@ -1,5 +1,4 @@
 <?php
-session_start();
 include "dbFunctions.php";
 include "authentication.php";
 if (!isset($_SESSION["loggedIn"])) {
@@ -23,18 +22,20 @@ if (sizeOf($_POST) > 0) {
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>';
     } else {
-        $email = htmlspecialchars($_POST["email"]);
-        $password = htmlspecialchars($_POST["password"]);
-        $d = loginUser($email, $password);
-        print_r($d);
-        if (loginUser($email, $password)) {
+        $user = loginUser(htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["password"]));
+        if ($user[0]) {
             $_SESSION["loggedIn"] = true;
-            $_SESSION["token"] = md5(time() * rand(1, 574) . $user);
+            $_SESSION["id"] = $user[1][0];
+            $_SESSION["token"] = md5(time() * rand(1, 574) . $_SESSION["id"]);
+            $_SESSION["firstName"] = $user[1][1];
+            $_SESSION["lastName"] = $user[1][2];
+            $_SESSION["role"] = $user[1][3];
+
             header("Location:index.php");
         } else {
             echo '
                     <div class="alert alert-danger alert-dismissible fade show">
-                        <strong>Error!</strong> Email ou mot de passe incorrect.
+                        <strong>Error!</strong> `$user[1]`.
                     </div>';
         }
     }

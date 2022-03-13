@@ -73,11 +73,6 @@
                         $phone = htmlspecialchars($_POST["phone"]);
                         //insert user into database
                         addUser($lastName, $firstName, $email, $phone, $hashedPassword, $service);
-                        echo '
-                            <div class="mt-3 alert alert-success alert-dismissible fade show">
-                                <strong>Success!</strong> Vous êtes inscrit maintenant.
-                                <a href="login.php">Connectez vous.</a>
-                            </div>';
                     }
                 }
             }
