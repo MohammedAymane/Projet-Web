@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8"/>
-        <title>Liste de mes missions</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+
+<head>
+    <meta charset="utf-8" />
+    <title>Liste de mes missions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-    </head>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
 
-    <body>
-        <?php include "navbar.php";?>
+<body>
+    <?php
+    include "./services/authentication.php";
+    include "navbar.php";
+    redirectOut();
 
-        <main>
-            <section class="py-5">
-            <div class="container bg-primary text-center" >
+    ?>
+    <main>
+        <section class="py-5">
+            <div class="container bg-primary text-center">
                 <h1>Mes Missions</h1>
             </div>
-            </section>
+        </section>
 
-            <section class="py-5">
+        <section class="py-5">
             <div class="container">
                 <div class="row">
                     <p class="col-4">Ajouter une mission :</p>
@@ -36,8 +41,6 @@
                                 <th scope="col">Solde</th>
                                 <th scope="col">Etat</th>
                                 <th scope="col"></th>
-
-
                             </tr>
                         </thead>
                     </table>
@@ -46,16 +49,17 @@
 
             </div>
 
-            
-
-            </section>
 
 
-        </main>
-
-    
-        
+        </section>
 
 
-    </body>
+    </main>
+
+
+
+
+
+</body>
+
 </html>
