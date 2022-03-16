@@ -98,7 +98,10 @@
             }
             ?>
         </form>
+        <p class="text-center">Vous avez dèjà un compte ? <a href="login.php">Connectez-vous</a></p>
     </div>
+
+
 
 </body>
 
