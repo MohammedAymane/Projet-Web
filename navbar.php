@@ -54,14 +54,6 @@
                         <a class="nav-link active" aria-current="page" href="#">Nomenclature</a>
                     </li>';
                     } ?>
-                    <!-- create menu from php array -->
-                    <?php
-                    $menu = ["test1", "test2", "test3"];
-                    foreach ($menu as $key => $value) {
-                        echo '<li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="' . $value . '">' . $key . '</a>
-                    </li>';
-                    }   ?>
 
 
                     <li class="nav-item dropdown">
