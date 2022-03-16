@@ -39,7 +39,7 @@
                         <a class="nav-link active" aria-current="page" href="#">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Mes Missions</a>
+                        <a class="nav-link active" aria-current="page" href="listeMissions.php">Mes Missions</a>
                     </li>
                     <?php
                     if (isset($_SESSION["role"]) && $_SESSION["role"] == "Administrateur") {
