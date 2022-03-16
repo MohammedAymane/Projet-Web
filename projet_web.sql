@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `missions` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_missions` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `nomenclature` (
   `id_parent` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_nomenclature` (`id_parent`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `operations` (
   PRIMARY KEY (`id`),
   KEY `FK_operations` (`id_mission`),
   KEY `FK_nommenclature` (`id_nomenclature`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -94,7 +94,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `service` varchar(100) NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
