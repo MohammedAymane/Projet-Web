@@ -33,7 +33,14 @@
             </div>
             <div class="form-group">
                 <label for="service">Service de rattachement</label>
-                <input name="service" type="text" class="mt-1 form-control" id="service" required>
+                <select required name="service" class="form-control" id="role">
+                    <?php
+                    echo "<option value=''>Choisissez votre service</option>";
+                    foreach (["RH", "R&D", "Marketing", "Commercial"] as $menu) {
+                        echo "<option value='" . $menu . "'>" . $menu . "</option>";
+                    }
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="email">Email</label>
@@ -46,6 +53,9 @@
             <div class="form-group">
             </div>
             <button type="submit" class="mt-3 w-100 btn btn-success mx-auto d-block">S'inscrire</button>
+
+
+
             <?php if (sizeOf($_POST) > 0) {
                 if ($_POST["email"] == "" || $_POST["password"] == "" || $_POST["lastName"] == "" || $_POST["firstName"] == "" || $_POST["phone"] == "" || $_POST["service"] == "") {
                     echo '    
