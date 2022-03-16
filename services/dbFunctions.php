@@ -1,7 +1,9 @@
 <?php
 
+use LDAP\Result;
 
 include_once "./classes/user.class.php";
+include_once "./classes/mission.class.php";
 
 //create function to add user
 function addUser($newUser)
@@ -92,7 +94,7 @@ function loginUser($email, $password2)
     }
 }
 
-    function addMission($newMission)
+function addMission($newMission)
 {
     include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
@@ -146,15 +148,16 @@ function getMissions()
     }
 }
 // get all missions from a user
-function getMissionsByUserId($user_id){
+function getMissionsByUserId($user_id)
+{
     include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM `missions` WHERE `user_id`=$user_id ";
+        $sql = "SELECT * FROM `missions` WHERE `user_id`= ? ";
         $req = $pdo->prepare($sql);
-        $req->execute();
+        $req->execute([$user_id]);
         $result = $req->fetchAll();
         //close connection
         $pdo = null;
@@ -174,6 +177,31 @@ function getMissionsByUserId($user_id){
     }
 
 }
+function getMissionById($id){
+        include "./config/config.php";
+        // Create connection with mysql database using pdo surrended by try catch
+        try {
+            $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "SELECT * FROM `missions` WHERE `id`= ? ";
+            $req = $pdo->prepare($sql);
+            $req->execute([$id]);
+            $result = $req->fetchAll();
+            //close connection
+            $pdo = null;
+            $mission = $result[0];
+            $classMission = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]); 
+            return [
+                "status" => "success",
+                "result" => $classMission
+            ];
+        } catch (PDOException $e) {
+            return [
+                "status" => "error",
+                "message" => "Connection failed: " . $e->getMessage()
+            ];
+        }
+    }
 
 // get all missions
 function getUsers()
@@ -200,4 +228,6 @@ function getUsers()
         ];
     }
 }
+
+
 

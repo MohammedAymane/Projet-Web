@@ -14,7 +14,9 @@
     <?php
     include "./services/authentication.php";
     include "navbar.php";
+    include "./services/dbFunctions.php";
     redirectOut();
+    $user_id = $_SESSION["id"];
 
     ?>
     <main>
@@ -43,6 +45,38 @@
                                 <th scope="col"></th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <?php
+                                $missions = [];
+                                echo $user_id ;
+                                $result = getMissionsByUserId($user_id);
+                                if($result["status"]=="success"){
+                                    $missions = array_reverse($result["result"]);
+                                }
+                                if(!empty($missions)){
+                                    $indiceMission = count($missions);
+                                    foreach($missions as $mission){
+                                        
+                                        echo '<tr>
+                                            <th scope="col">Mission '.$indiceMission--.'</th>
+                                            <th scope="col">'.$mission->getLieu().'</th>
+                                            <th scope="col">'.$mission->getDebut().' - '.$mission->getFin().'</th>
+                                            <th scope="col">'.$mission->getSolde_initial().'</th>
+                                            <th scope="col">'.$mission->getEtat().'</th>';
+                                        if($mission->getEtat()=="enCours"){
+                                            echo '    
+                                                <th scope="col"><button type = "button" class = "btn-sm btn-warning">MODIFIER</button></th>
+                                            </tr>';
+                                        } else {
+                                            echo '    
+                                            <th scope="col"></th>
+                                        </tr>';
+                                        }
+                                        
+                                    }
+                                }
+                                ?>
+                        </tbody>
                     </table>
                 </div>
 
