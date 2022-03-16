@@ -60,4 +60,5 @@ Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) an
 ## :checkered_flag: Starting
 
 Launch you app using wamp, xampp or any other server, and visit the config/init.php to configure and initialize the database database.
+<br>
 <a href="#top">Back to top</a>
