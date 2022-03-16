@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 16 mars 2022 à 08:17
+-- Généré le : mer. 16 mars 2022 à 09:46
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `missions` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_missions` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `nomenclature` (
   `id_parent` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_nomenclature` (`id_parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS `operations` (
   PRIMARY KEY (`id`),
   KEY `FK_operations` (`id_mission`),
   KEY `FK_nommenclature` (`id_nomenclature`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -91,19 +91,18 @@ CREATE TABLE IF NOT EXISTS `users` (
   `email` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `service` varchar(100) NOT NULL,
+  `service` enum('Marketing','RH','R&D','Commercial','Administration') NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`Id`, `role`, `firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES
-(25, 'Administrateur', 'Mohammed-Aymane', 'OUGGADI', 'email@gmail.com', '0698767897', '$2y$10$ZoN5coBjxPQ7iiOhf40j4.sQU//rdPqGXQOxaDB3ElIEMCD1INCou', 'Service'),
-(26, 'Employee', 'Mohammed-Aymane', 'OUGGADI', 'email1@gmail.com', '0698767897', '$2y$10$GRr84yCmICfwucGl34y1Cuxn/iZM4VVlL4/VJfyY.ekCXhJiODZRC', 'Service'),
-(30, 'Employee', 'Mohammed-Aymane', 'OUGGADI', 'email3@gmail.com', '0698767897', '$2y$10$FLUlI5dn0X5pEbm7HiU2O.1hitGECo2IsS65f/NU0CFMtmWRYEKyC', 'Service');
+(32, 'Administrateur', 'Mohammed-Aymane', 'OUGGADI', 'email1@gmail.com', '0612345678', '$2y$10$.LeTRnMUSV8ChaFkziuSTeYX2kZ7xQyDM1bXssD2EdsOi0SWMOJoa', 'Administration'),
+(33, 'Employee', 'Mohammed-Aymane', 'OUGGADI', 'email2@gmail.com', '0612345678', '$2y$10$zSaDll2v0mwSAmWnE02NQ.NKCl.ycUNmugHOIwjXeznG/q/2TG/4u', 'RH');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
