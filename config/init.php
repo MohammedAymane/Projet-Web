@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS `missions` (
   `user_id` int(11) NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `FK_missions` (`user_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `nomenclature`;
 CREATE TABLE IF NOT EXISTS `nomenclature` (
   `id` int(11) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS `nomenclature` (
   `id_parent` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_nomenclature` (`id_parent`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `operations`;
 CREATE TABLE IF NOT EXISTS `operations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS `operations` (
   PRIMARY KEY (`id`),
   KEY `FK_operations` (`id_mission`),
   KEY `FK_nommenclature` (`id_nomenclature`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `Id` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `service` enum('Marketing','RH','R&D','Commercial','Administration') NOT NULL,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
 ";
     $req = $pdo->prepare($sql);
     $req->execute();
