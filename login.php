@@ -33,8 +33,8 @@ if (sizeOf($_POST) > 0) {
                 $_SESSION["loggedIn"] = true;
                 $_SESSION["id"] = $user["result"][1][0];
                 $_SESSION["token"] = md5(time() * rand(1, 574) . $_SESSION["id"]);
-                $_SESSION["firstName"] = $user["result"][1][1];
-                $_SESSION["lastName"] = $user["result"][1][2];
+                $_SESSION["firstName"] = $user["result"][1][2];
+                $_SESSION["lastName"] = $user["result"][1][3];
                 $_SESSION["role"] = $user["result"][1][3];
                 header("Location:index.php");
             }
