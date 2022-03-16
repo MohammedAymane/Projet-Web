@@ -101,8 +101,8 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`Id`, `role`, `firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES
-(32, 'Administrateur', 'Mohammed-Aymane', 'OUGGADI', 'email1@gmail.com', '0612345678', '$2y$10$.LeTRnMUSV8ChaFkziuSTeYX2kZ7xQyDM1bXssD2EdsOi0SWMOJoa', 'Administration'),
-(33, 'Employee', 'Mohammed-Aymane', 'OUGGADI', 'email2@gmail.com', '0612345678', '$2y$10$zSaDll2v0mwSAmWnE02NQ.NKCl.ycUNmugHOIwjXeznG/q/2TG/4u', 'RH');
+(32, 'Administrateur', 'Administrateur 1', 'Admin', 'email1@gmail.com', '0612345678', '$2y$10$.LeTRnMUSV8ChaFkziuSTeYX2kZ7xQyDM1bXssD2EdsOi0SWMOJoa', 'Administration'),
+(33, 'Employee', 'Utilisateur 1', 'User', 'email2@gmail.com', '0612345678', '$2y$10$zSaDll2v0mwSAmWnE02NQ.NKCl.ycUNmugHOIwjXeznG/q/2TG/4u', 'RH');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
