@@ -55,6 +55,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 ";
     $req = $pdo->prepare($sql);
     $req->execute();
+    echo "Base de donnée créée avec succès";
 } catch (PDOException $e) {
     return "Connection failed: " . $e->getMessage();
 }
