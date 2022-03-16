@@ -30,7 +30,9 @@
             <div class="container">
                 <div class="row">
                     <p class="col-4">Ajouter une mission :</p>
-                    <button type="button" class="col-2 btn-sm btn-success">Nouvelle Mission</button>
+                    <button type="button" class="col-2 btn-sm btn-success">
+                    <a href="page_mission.php" class="link-light"> Nouvelle Mission </a>
+                    </button>
                 </div>
 
                 <div class="row mt-5 overflow-auto">
