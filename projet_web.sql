@@ -50,9 +50,9 @@ CREATE TABLE IF NOT EXISTS `missions` (
 
 DROP TABLE IF EXISTS `nomenclature`;
 CREATE TABLE IF NOT EXISTS `nomenclature` (
-  `id` int(11) NOT NULL,
+  `id` varchar(60) NOT NULL,
+  `id_parent` varchar(60) NOT NULL,
   `nom` varchar(60) NOT NULL,
-  `id_parent` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_nomenclature` (`id_parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

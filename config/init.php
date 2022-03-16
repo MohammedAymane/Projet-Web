@@ -2,6 +2,8 @@
 
 include "config.php";
 // Create connection with mysql database using pdo surrended by try catch
+
+echo "begin";
 try {
     $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -21,11 +23,11 @@ CREATE TABLE IF NOT EXISTS `missions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `nomenclature`;
 CREATE TABLE IF NOT EXISTS `nomenclature` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(60) NOT NULL,
-  `id_parent` int(11) NOT NULL,
+  `id` varchar(60) NOT NULL,
+  `parent` varchar(60) NOT NULL,
+  `text` varchar(60) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK_nomenclature` (`id_parent`)
+  KEY `FK_nomenclature` (`parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 DROP TABLE IF EXISTS `operations`;
 CREATE TABLE IF NOT EXISTS `operations` (
