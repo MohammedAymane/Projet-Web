@@ -40,7 +40,6 @@ $json = $nomenclature["result"];
 <script>
   $(function () {
     // 6 create an instance when the DOM is ready
-    // $('#jstree').jstree();
     $("#jstree").jstree({
       "core" : {
         "check_callback" : true,
@@ -50,20 +49,27 @@ $json = $nomenclature["result"];
     });
 
     // 7 bind to events triggered on the tree
+
+
     $('#jstree').on("rename_node.jstree", function(e, data) {
-      alert(data.node.id);
-      var request = new XMLHttpRequest();
+      let request = new XMLHttpRequest();
+      let action = 'update';
       request.open('post', 'nomenclatureHandler.php');
-      //set request header
       request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      //the node id 
-      var id = data.node.id;
-      //the new value
-      var newName = data.text;
-      request.send("id="+id+"&newName="+newName);
-      alert("rename successfully");
-      // echo "rename successfully";   
+      request.send("id="+data.node.id+"&text="+data.node.text+"&action="+action);
+      alert("rename successfully"); 
+    })
+    
+    $('#jstree').on("create_node.jstree", function(e, data) {
+      let request = new XMLHttpRequest();
+      let action = 'create';   
+      request.open('post', 'nomenclatureHandler.php');
+      request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+      request.send("id="+data.node.id+"&parent="+data.node.parent+"&text="+data.node.text+"&action="+action);
+      alert("create successfully");
     });
+
+    
 
     // 8 interact with the tree - either way is OK
     $('button').on('click', function () {
