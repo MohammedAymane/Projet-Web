@@ -83,6 +83,7 @@
                         $id = 1;
                         $result = getMissionById2($id);
                         $mission = $result["result"][0];
+                        $solde = $mission["solde_initial"];
 
                     ?>
                     <div class="row">
@@ -92,20 +93,20 @@
                                     <tr>
                                         <th rowspan="2" scope="col" class="text-center align-middle">Mission</th>
                                         <th class="table-active" scope="col">Lieu</th>
-                                        <td scope="col"><?php print_r($mission["lieu"]) ?></td>
+                                        <td scope="col"><?php echo $mission["lieu"] ?></td>
                                         
                                     </tr>
                                     <tr>
                                         <th class="table-active">Date de début</th>
-                                        <td><?php print_r($mission["debut"]) ?></td>                                  
+                                        <td><?php echo $mission["debut"] ?></td>                                  
                                     </tr>
                                     <tr>
                                         <th class="table-active">Description</th>
                                         <th class="table-active">Date de fin</th>
-                                        <td><?php print_r($mission["fin"]) ?></td>
+                                        <td><?php echo $mission["fin"] ?></td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3" colspan="3"><?php print_r($mission["description"]) ?></td>
+                                        <td rowspan="3" colspan="3"><?php echo $mission["description"] ?></td>
                                     </tr>
                                 </thead>
                             </table>
@@ -116,7 +117,7 @@
                                 <thead>
                                     <tr>
                                         <th>Solde initial</th>
-                                        <td><?php print_r($mission["solde_initial"]) ?><td>
+                                        <td><?php echo $mission["solde_initial"] ?><td>
                                     </tr>
                                     <tr>
                                         <th>Taux de change</th>
@@ -143,16 +144,28 @@
                                     <th class="text-center">Solde</th>
                                     <th class="text-center">Crédit / Débit</th>
                                 </tr>
-                                <tr>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td>--</td>
-                                    <td class="table-danger">--</td>
-                                    <td class="table-warning">--</td>
-                                    <td class="table-primary">--</td>
-                                    <td class="table-primary">--</td>
-                                </tr>
                             </thead>
+                            <tbody>
+                                <?php
+                                    $mission_id = 1;
+                                    $depense = 0;
+                                    $operation = getOperationByMissionId($mission_id);
+                                    $listeOp = $operation["result"];
+                                    foreach($listeOp as $op) {
+                                ?>
+                                <tr>
+                                    <td><?php echo $op["date"]?></td>
+                                    <td><?php echo $op["nom"]?></td>
+                                    <td><?php echo $op["description"]?></td>
+                                    <td class="table-danger"><?php if ($op["montant"] > 0) {echo $op["montant"]; $solde += $op["montant"];}?></td>
+                                    <td class="table-warning"><?php if ($op["montant"] < 0) {echo $op["montant"]; $solde += $op["montant"]; $depense -= $op["montant"];}?></td>
+                                    <td class="table-primary"><?php echo $solde ?></td>
+                                    <td class="table-primary"><?php echo $op["montant"] ?></td>
+                                </tr>
+                                <?php
+                                    }
+                                ?>
+                            </tbody>
                         </table>
                     </div>
 
@@ -163,17 +176,17 @@
                                     <tr>
                                         <th>Effets à recevoir</th>
                                         <td class="table-primary">$</td>
-                                        <td class="table-primary">--</td>
+                                        <td class="table-primary"><?php if ($solde < 0) {echo $solde;} else {echo 0;} ?></td>
                                     </tr>
                                     <tr>
                                         <th>Effets à payer</th>
                                         <td class="table-primary">$</td>
-                                        <td class="table-primary">--</td>
+                                        <td class="table-primary"><?php if ($solde > 0) {echo $solde;} else {echo 0;} ?></td>
                                     </tr>
                                     <tr>
                                         <th>Solde actuel</th>
                                         <td class="table-primary">$</td>
-                                        <td class="table-primary">--</td>
+                                        <td class="table-primary"><?php echo $solde ?></td>
                                     </tr>
                                 </thead>
                             </table>
@@ -184,13 +197,13 @@
                                 <thead>
                                     <tr>
                                         <th>Total</th>
-                                        <td class="table-primary">0,00€</td>
-                                        <td class="table-primary">0,00€</td>
+                                        <td class="table-primary"><?php echo $solde?></td>
+                                        <td class="table-primary">$</td>
                                     </tr>
                                     <tr>
                                         <th>Total dépense</th>
-                                        <td class="table-primary">0,00€</td>
-                                        <th class="table-primary">0,00€</th>
+                                        <td class="table-primary"><?php echo $depense ?></td>
+                                        <td class="table-primary">$</td>
                                     </tr>
                                 </thead>
                             </table>

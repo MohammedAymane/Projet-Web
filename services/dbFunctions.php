@@ -315,19 +315,15 @@ function getOperationByMissionId($mission_id)
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM `operations` WHERE `id_mission`= ? ";
+        $sql = "SELECT * FROM operations JOIN nomenclature ON operations.id_nomenclature=nomenclature.id WHERE id_mission= ?";
         $req = $pdo->prepare($sql);
         $req->execute([$mission_id]);
         $result = $req->fetchAll();
         //close connection
-        $pdo = null;
-        $operations = [];
-        foreach($result as $operation){
-            $operations[] = new Mission($operation["date"],$operation["description"],$operation["montant"],$operation["devise"]);
-        }
+        $pdo = null;   
         return [
             "status" => "success",
-            "result" => $operations
+            "result" => $result
         ];
     } catch (PDOException $e) {
         return [
@@ -335,5 +331,4 @@ function getOperationByMissionId($mission_id)
             "message" => "Connection failed: " . $e->getMessage()
         ];
     }
-
 }
