@@ -280,3 +280,60 @@ function getNomenclature()
         ];
     }
 }
+
+// get all nomenclature
+function getMissionById2($id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM `missions` WHERE `id`= ?";
+        $req = $pdo->prepare($sql);
+        $req->execute([$id]);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;   
+        return [
+            "status" => "success",
+            "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
+
+// get all operations from a mission
+function getOperationByMissionId($mission_id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM `operations` WHERE `id_mission`= ? ";
+        $req = $pdo->prepare($sql);
+        $req->execute([$mission_id]);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+        $operations = [];
+        foreach($result as $operation){
+            $operations[] = new Mission($operation["date"],$operation["description"],$operation["montant"],$operation["devise"]);
+        }
+        return [
+            "status" => "success",
+            "result" => $operations
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+
+}

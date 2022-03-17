@@ -79,6 +79,12 @@
                         <p>Feuille de comptabilité</p>
                     </div>
 
+                    <?php
+                        $id = 1;
+                        $result = getMissionById2($id);
+                        $mission = $result["result"][0];
+
+                    ?>
                     <div class="row">
                         <div class="col">
                             <table class="table table-bordered">
@@ -86,20 +92,20 @@
                                     <tr>
                                         <th rowspan="2" scope="col" class="text-center align-middle">Mission</th>
                                         <th class="table-active" scope="col">Lieu</th>
-                                        <td scope="col">--</td>
+                                        <td scope="col"><?php print_r($mission["lieu"]) ?></td>
                                         
                                     </tr>
                                     <tr>
                                         <th class="table-active">Date de début</th>
-                                        <td>--</td>                                  
+                                        <td><?php print_r($mission["debut"]) ?></td>                                  
                                     </tr>
                                     <tr>
                                         <th class="table-active">Description</th>
                                         <th class="table-active">Date de fin</th>
-                                        <td>--</td>
+                                        <td><?php print_r($mission["fin"]) ?></td>
                                     </tr>
                                     <tr>
-                                        <td rowspan="3" colspan="3"></td>
+                                        <td rowspan="3" colspan="3"><?php print_r($mission["description"]) ?></td>
                                     </tr>
                                 </thead>
                             </table>
@@ -110,11 +116,11 @@
                                 <thead>
                                     <tr>
                                         <th>Solde initial</th>
-                                        <td>--<td>
+                                        <td><?php print_r($mission["solde_initial"]) ?><td>
                                     </tr>
                                     <tr>
                                         <th>Taux de change</th>
-                                        <td>--</td>
+                                        <td>?</td>
                                     </tr>
                                 </thead>
                             </table>

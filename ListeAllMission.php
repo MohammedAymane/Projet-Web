@@ -13,6 +13,8 @@
    <?php
    include "navbar.php";
    include "services/dbFunctions.php";
+   redirectOut();
+   $user_id = $_SESSION["id"];
    ?>
 
    <div class="container-fluid p-4 bg-success text-white text-center bg-opacity-50">
