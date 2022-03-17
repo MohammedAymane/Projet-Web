@@ -12,7 +12,7 @@ function redirectIn()
 // create function to redirect out
 function redirectOut()
 {
-    if (isset($_SESSION["loggedIn"]) && !$_SESSION["loggedIn"]) {
+    if (!isset($_SESSION["loggedIn"]) || (isset($_SESSION["loggedIn"]) && !$_SESSION["loggedIn"])) {
         header("Location:login.php");
         die();
     }
