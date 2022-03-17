@@ -52,14 +52,15 @@ $json = $nomenclature["result"];
     // 7 bind to events triggered on the tree
     $('#jstree').on("rename_node.jstree", function(e, data) {
       alert(data.node.id);
-      var request = new XMLHTTpRequest();
-      request.open('post', 'nomenclature.php');
-      request.setRequestHeader();   
+      var request = new XMLHttpRequest();
+      request.open('post', 'nomenclatureHandler.php');
       //set request header
       request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      var oldValue = data.old;
-      var newValue = data.text;
-      request.send("oldValue="+oldValue, "newValue="+newValue);
+      //the node id 
+      var id = data.node.id;
+      //the new value
+      var newName = data.text;
+      request.send("id="+id+"&newName="+newName);
       alert("rename successfully");
       // echo "rename successfully";   
     });

@@ -243,18 +243,10 @@ function getNomenclatureItems() {
         $json=json_encode($result);
         //close connection
         $pdo = null;
-        // return [
-        //     "status" => "success",
-        //     "result" => $json
-        // ];
         return [
             "status" => "success",
             "result" => $json
         ];
-        // $s = '<div class="mt-3 alert alert-success alert-dismissible fade show">
-        //                         <strong>Success!</strong> Vous êtes inscrit maintenant.
-        //                         <a href="login.php">Connectez vous.</a>
-        //                     </div>';
       } catch (PDOException $e) {
         return [
             "status" => "error",
