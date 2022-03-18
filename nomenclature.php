@@ -17,10 +17,11 @@ $json = $nomenclature["result"];
   <!-- 2 load the theme CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 <!-- 3 setup a container element -->
-<div class="ui container">
+<div class="ui container m-margin-top-large" style>
   <div class="ui top attached segment">
     <div class="ui stackable secondary four item menu">
 
