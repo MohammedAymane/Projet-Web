@@ -16,22 +16,56 @@ $json = $nomenclature["result"];
   <title>jsTree test</title>
   <!-- 2 load the theme CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
 </head>
 <body>
 <!-- 3 setup a container element -->
-<div id="jstree">
-  <!-- in this example the tree is populated from inline HTML -->
-  <!-- <ul>
-    <li>Root node 1
-      <ul>
-        <li id="child_node_1">Child node 1</li>
-        <li>Child node 2</li>
-      </ul>
-    </li>
-    <li>Root node 2</li>
-  </ul> -->
+<div class="ui container">
+  <div class="ui top attached segment">
+    <div class="ui stackable secondary four item menu">
+      <button class="ui labeled icon button">
+        <i class="pause icon"></i>
+        Create
+      </button>
+
+      <button class="ui labeled icon button">
+        <i class="right arrow icon"></i>
+        Rename
+      </button>
+
+      <button class="ui labeled icon button">
+        <i class="right arrow icon"></i>
+        Delete
+      </button>
+
+      <div class="ui search">
+        <div class="ui icon input">
+          <input class="prompt" type="text" placeholder="Common passwords...">
+          <i class="search icon"></i>
+        </div>
+        <div class="results"></div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="ui attached segment">
+    <div id="jstree" class="padded">
+      <!-- in this example the tree is populated from inline HTML -->
+      <!-- <ul>
+        <li>Root node 1
+          <ul>
+            <li id="child_node_1">Child node 1</li>
+            <li>Child node 2</li>
+          </ul>
+        </li>
+        <li>Root node 2</li>
+      </ul> -->
+    </div>
+  </div>
+
 </div>
-<button>demo button</button>
+
 
 <!-- 4 include the jQuery library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
@@ -49,7 +83,14 @@ $json = $nomenclature["result"];
           "expand_selected_onload" : true,
           "stripes" : true 
         },
-        "check_callback" : true,
+        "check_callback" : function (op, node, par, pos, more) {
+                              if(op === "delete_node") {
+                                  if (node.parent === '#') {
+                                      alert('Cannot delete root! bad guy!!!');
+                                      return false;
+                                  }
+                              }
+                          },
         "data" :  <?php echo "$json";?>
       },
       "plugins" : [ "contextmenu","unique", "search"]
