@@ -134,7 +134,7 @@ function getMissions()
         $pdo = null;
         $missions = [];
         foreach($result as $mission){
-            $missions[] = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]); 
+            $missions[] = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]);
         }
         return [
             "status" => "success",
@@ -163,7 +163,7 @@ function getMissionsByUserId($user_id)
         $pdo = null;
         $missions = [];
         foreach($result as $mission){
-            $missions[] = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]); 
+            $missions[] = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]);
         }
         return [
             "status" => "success",
@@ -190,7 +190,7 @@ function getMissionById($id){
             //close connection
             $pdo = null;
             $mission = $result[0];
-            $classMission = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]); 
+            $classMission = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]);
             return [
                 "status" => "success",
                 "result" => $classMission
@@ -203,6 +203,32 @@ function getMissionById($id){
         }
     }
 
+function getMissionsByWhere($sqlexp){
+        include "./config/config.php";
+        // Create connection with mysql database using pdo surrended by try catch
+        try {
+            $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, M.devise
+            FROM missions M LEFT JOIN users U on M.user_id = U.Id".$sqlexp;
+            echo $sql;
+            $req = $pdo->prepare($sql);
+            $req->execute();
+            $result = $req->fetchAll();
+            //close connection
+            $pdo = null;
+            return [
+                "status" => "success",
+                "result" => $result
+            ];
+        } catch (PDOException $e) {
+            return [
+                "status" => "error",
+                "message" => "Connection failed: " . $e->getMessage()
+            ];
+        }
+}
+
 // get all missions
 function getUsers()
 {
@@ -211,7 +237,33 @@ function getUsers()
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT `firstName` FROM `users`";
+        $sql = "SELECT firstName, lastName FROM `users`";
+        $req = $pdo->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+        return [
+            "status" => "success",
+            "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
+
+// get all nomenclature
+function getNomenclature()
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT `nom` FROM `nomenclature` WHERE `id_parent` IS NOT NULL";
         $req = $pdo->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
@@ -228,7 +280,6 @@ function getUsers()
         ];
     }
 }
-
 
 //get all nomenclature itms from database
 function getNomenclatureItems() {
@@ -255,5 +306,54 @@ function getNomenclatureItems() {
     }
 }
 
+function getMissionById2($id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM `missions` WHERE `id`= ?";
+        $req = $pdo->prepare($sql);
+        $req->execute([$id]);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;   
+        return [
+            "status" => "success",
+            "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
 
 
+// get all operations from a mission
+function getOperationByMissionId($mission_id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM operations JOIN nomenclature ON operations.id_nomenclature=nomenclature.id WHERE id_mission= ?";
+        $req = $pdo->prepare($sql);
+        $req->execute([$mission_id]);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;   
+        return [
+            "status" => "success",
+            "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}

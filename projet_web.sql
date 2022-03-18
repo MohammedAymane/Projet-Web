@@ -53,6 +53,10 @@ CREATE TABLE IF NOT EXISTS `nomenclature` (
   `id` varchar(60) NOT NULL,
   `id_parent` varchar(60) NOT NULL,
   `nom` varchar(60) NOT NULL,
+<<<<<<< HEAD
+=======
+  `id_parent` int(11),
+>>>>>>> ee5c820d5ebe961e409d648bfeb4f2e41325c3c5
   PRIMARY KEY (`id`),
   KEY `FK_nomenclature` (`id_parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
