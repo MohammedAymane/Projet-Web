@@ -42,34 +42,48 @@ $json = $nomenclature["result"];
     // 6 create an instance when the DOM is ready
     $("#jstree").jstree({
       "core" : {
+        "multiple" : false,
+        "animation" : 0,
+        "themes" : {
+          "variant" : "large",
+          "expand_selected_onload" : true,
+          "stripes" : true 
+        },
         "check_callback" : true,
         "data" :  <?php echo "$json";?>
       },
-      "plugins" : [ "contextmenu" ]
+      "plugins" : [ "contextmenu","unique", "search"]
+    });
+
+    var to = false;
+    $('#jstree').keyup(function () {
+      if(to) { clearTimeout(to); }
+      to = setTimeout(function () {
+        var v = $('#jstree').val();
+        $('#jstree').jstree(true).search(v);
+      }, 250);
     });
 
     // 7 bind to events triggered on the tree
-
-
-    $('#jstree').on("rename_node.jstree", function(e, data) {
-      let request = new XMLHttpRequest();
-      let action = 'update';
-      request.open('post', 'nomenclatureHandler.php');
-      request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-      request.send("id="+data.node.id+"&text="+data.node.text+"&action="+action);
-      alert("rename successfully"); 
-    })
-    
-    $('#jstree').on("create_node.jstree", function(e, data) {
-      let request = new XMLHttpRequest();
-      let action = 'create';   
+    function post(action, data) {
+      let request = new XMLHttpRequest();   
       request.open('post', 'nomenclatureHandler.php');
       request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
       request.send("id="+data.node.id+"&parent="+data.node.parent+"&text="+data.node.text+"&action="+action);
-      alert("create successfully");
+      // alert(action + " successfully");
+    }
+
+    $('#jstree').on("rename_node.jstree", function(e, data) {
+      post("update", data);
+    })
+    
+    $('#jstree').on("create_node.jstree", function(e, data) {
+      post("create", data);
     });
 
-    
+    $('#jstree').on("delete_node.jstree", function(e, data) {
+      post("delete", data);
+    });
 
     // 8 interact with the tree - either way is OK
     $('button').on('click', function () {
