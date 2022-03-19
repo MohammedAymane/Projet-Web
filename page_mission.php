@@ -23,6 +23,7 @@
         include "./classes/operation.class.php";
         include "navbar.php";
         include "./services/dbFunctions.php";
+        $mission_id = 1;
                 
         redirectOut();
         $user_id = $_SESSION["id"];
@@ -43,20 +44,20 @@
 
                     <div class="row">
                         <div class="col input-group date" data-provide="datepicker">
-                            <input type="text" class="form-control" placeholder="Date" id="date" name="date">
+                            <input type="text" class="form-control" placeholder="Date" id="date" name="date" required>
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-th"></span>
                             </div>
                         </div>     
 
                         <div class="col">
-                            <select class="form-select" aria-label="Default select example">
+                            <select class="form-select" aria-label="Default select example" name="type" id="type" required>
                                 <option selected>Type de frais</option>
                                 <?php                           
                                     $nomenclature=getNomenclature();
                                     $listeNom = $nomenclature["result"];
                                     foreach($listeNom as $nom) { ?>
-                                        <option value="1"> <?php echo $nom["nom"] ?> </option>
+                                        <option value="1"> <?php echo $nom["text"] ?> </option>
                                     <?php } ?>
                             </select>                       
                         </div>
@@ -66,43 +67,44 @@
                         </div>
                         
                         <div class="col form-outline">
-                            <input type="number" min="0" class="form-control" placeholder="Montant" />
+                            <input type="number" class="form-control" name="montant" placeholder="Montant" />
                         </div>
 
                         <button type="submit" class="col btn-sm btn-success">
-                            Ajouter 
+                            Ajouter
                         </button>
 
                     </div>
 
-                    <?php if (sizeOf($_POST) > 0) {
-                if ($_POST["description"] == "") {
-                    echo '    
-                    <div class="mt-3 alert alert-warning alert-dismissible fade show">
-                        <strong>Warning!</strong> Veuillez remplir tous les champs.
-                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                    </div>';
-                } else {
+                    <?php 
                     
-                    
-                    
-                    $op = new Operation("a", htmlspecialchars($_POST["description"]), 9, 2, 1);
-                    
-                    
+                    if (sizeOf($_POST) > 0) {
+                        if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "") {
+                            echo '    
+                                <div class="mt-3 alert alert-warning alert-dismissible fade show">
+                                <strong>Warning!</strong> Veuillez remplir tous les champs.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                </div>';
+                        } else {            
+                            $op = new Operation(htmlspecialchars(date("y-m-d",$_POST["date"])), htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), "j1_12", $mission_id);
+
                             //insert user into database
-                            if (addOperation($op)) {
-                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
+                            $ajout = addOperation($op);
+                            if ($ajout["status"] == "success") {
+                                if ($ajout["result"]) {
+                                    echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> Opération ajoutée.
                                 <a href="page_mission.php">lien</a>
-                            </div>';
+                                </div>';
+                                }
                             } else {
                                 echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
                                 <strong>Erreur!</strong> Erreur lors de l'ajout.
-                            </div>";
+                                </div>";
                             };
-                }
-            }
-            ?>
+                        }
+                    }
+                    ?>
 
                 </form>
 
@@ -112,8 +114,7 @@
                     </div>
 
                     <?php
-                        $id = 1;
-                        $result = getMissionById2($id);
+                        $result = getMissionById2($mission_id);
                         $mission = $result["result"][0];
                         $solde = $mission["solde_initial"];
 
@@ -129,7 +130,7 @@
                                         
                                     </tr>
                                     <tr>
-                                        <th class="table-active">Dates de début</th>
+                                        <th class="table-active">Date de début</th>
                                         <td><?php echo $mission["debut"] ?></td>                                  
                                     </tr>
                                     <tr>
@@ -179,7 +180,6 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    $mission_id = 1;
                                     $depense = 0;
                                     $operation = getOperationByMissionId($mission_id);
                                     $listeOp = $operation["result"];

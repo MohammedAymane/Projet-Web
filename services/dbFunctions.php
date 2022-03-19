@@ -4,6 +4,7 @@ use LDAP\Result;
 
 include_once "./classes/user.class.php";
 include_once "./classes/mission.class.php";
+include_once "./classes/operation.class.php";
 
 //create function to add user
 function addUser($newUser)
@@ -263,7 +264,7 @@ function getNomenclature()
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT `nom` FROM `nomenclature` WHERE `id_parent` IS NOT NULL";
+        $sql = "SELECT `text` FROM `nomenclature` WHERE parent != '#'";
         $req = $pdo->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
@@ -281,7 +282,7 @@ function getNomenclature()
     }
 }
 
-//get all nomenclature itms from database
+//get all nomenclature items from database
 function getNomenclatureItems() {
     include "./config/config.php";
 
