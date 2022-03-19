@@ -26,7 +26,11 @@
     include "./classes/operation.class.php";
     include "navbar.php";
     include "./services/dbFunctions.php";
-    $mission_id = 1;
+    $mission_id = $_GET['mission_id'];
+
+    if (!isset($_GET['mission_id'])) {
+        echo('missing il faut créer une nouvelle mission');
+    }
 
     redirectOut();
     $user_id = $_SESSION["id"];
@@ -40,6 +44,73 @@
         </section>
 
         <section class="py-5">
+            <div class="container">
+                <div class="row">
+                    <p>Feuille de comptabilité</p>
+                </div>
+
+                <?php
+                $result = getMissionById2($mission_id);
+                $mission = $result["result"][0];
+                $solde = $mission["solde_initial"];
+                ?>
+
+                <div class="row">
+                    <div class="col">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" scope="col" class="text-center align-middle">Mission</th>
+                                    <th class="table-active" scope="col">Lieu</th>
+                                    <td scope="col"><?php echo $mission["lieu"] ?></td>
+
+                                </tr>
+                                <tr>
+                                    <th class="table-active">Date de début</th>
+                                    <td><?php echo $mission["debut"] ?></td>
+                                </tr>
+                                <tr>
+                                    <th class="table-active">Description</th>
+                                    <th class="table-active">Date de fin</th>
+                                    <td><?php echo $mission["fin"] ?></td>
+                                </tr>
+                                <tr>
+                                    <td rowspan="3" colspan="3"><?php echo $mission["description"] ?></td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+
+                    <div class="col">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Solde initial</th>
+                                    <td><?php echo $mission["solde_initial"] ?>
+                                    <td>
+                                </tr>
+                                <tr>
+                                    <th>Taux de change</th>
+                                    <td>?</td>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <?php
+        //etat de la mission
+            if ($mission["etat"] != "enCours") {
+                $hide = "py-5 d-none";
+            } else {
+                $hide = "py-5";
+            }
+        ?>
+
+        <section class='<?php echo $hide ?>'>       
+            
             <form class="container" action="page_mission.php" method="POST">
                 <div class="row">
                     <p> Nouvelle opération :</p>
@@ -122,61 +193,6 @@
                 ?>
 
             </form>
-
-            <div class="container">
-                <div class="row">
-                    <p>Feuille de comptabilité</p>
-                </div>
-
-                <?php
-                $result = getMissionById2($mission_id);
-                $mission = $result["result"][0];
-                $solde = $mission["solde_initial"];
-
-                ?>
-                <div class="row">
-                    <div class="col">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th rowspan="2" scope="col" class="text-center align-middle">Mission</th>
-                                    <th class="table-active" scope="col">Lieu</th>
-                                    <td scope="col"><?php echo $mission["lieu"] ?></td>
-
-                                </tr>
-                                <tr>
-                                    <th class="table-active">Date de début</th>
-                                    <td><?php echo $mission["debut"] ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="table-active">Description</th>
-                                    <th class="table-active">Date de fin</th>
-                                    <td><?php echo $mission["fin"] ?></td>
-                                </tr>
-                                <tr>
-                                    <td rowspan="3" colspan="3"><?php echo $mission["description"] ?></td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-
-                    <div class="col">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Solde initial</th>
-                                    <td><?php echo $mission["solde_initial"] ?>
-                                    <td>
-                                </tr>
-                                <tr>
-                                    <th>Taux de change</th>
-                                    <td>?</td>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </section>
 
         <section class="py-5">
