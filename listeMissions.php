@@ -34,7 +34,7 @@
         </div>
         <?php
 
-        if (sizeOf($_POST) > 0) {
+        if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "add") {
             // convert date :
             $debut = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["debut-mission"]));
             $debut = $debut->format('Y-m-d');
@@ -138,6 +138,9 @@
                                             <label for="devise-mission" class="col-form-label">Devise:</label>
                                             <input type="text" class="form-control" name="devise-mission"
                                                 id="devise-mission" required>
+                                            <input hidden type="text" name="action" value="add">
+                                            <input hidden type="text" name="token"
+                                                value="<?php echo $_SESSION["token"] ?>">
                                         </div>
                                         <div class="mb-3">
                                             <label for="solde-mission" class="col-form-label">Solde initial:</label>
@@ -195,28 +198,36 @@
                                             <th scope="col">' . $mission->getDebut() . ' - ' . $mission->getFin() . '</th>
                                             <th scope="col">' . $mission->getSolde_initial() . '</th>
                                             <th scope="col">' . $mission->getEtat() . '</th>';
-
-                                    echo '<form method="POST" >';
                                     if ($mission->getEtat() == "enCours") {
+                                        echo '<form method="POST" >';
                                         echo '
                                                     <th scope="col">
                                                         <button name ="editBtn" type = "submit" class = "button btn-sm btn-warning">MODIFIER</button>
                                                         <input type="hidden" name="token" value="' . $_SESSION["token"] . '">
+                                                        <input type="hidden" name="action" value="edit' . $mission->getId() . '">
                                                     </th>';
+                                        echo '</form>';
                                     }
                                     if ($mission->getEtat() == "annulee") {
+                                        echo '<form method="POST" >';
                                         echo '
                                                     <th scope="col">
                                                         <button name ="deleteBtn" type = "submit" class = "button btn-sm btn-danger">SUPPRIMER</button>
                                                         <input type="hidden" name="token" value="' . $_SESSION["token"] . '">
+                                                        <input type="hidden" name="action" value="delete' . $mission->getId() . '">
                                                    </tr>';
+                                        echo '</form>';
                                     }
-                                    echo '</form>';
-                                    if (isset($_POST['editBtn'])) {
+                                    if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "edit" . $mission->getId()) {
                                         //TODO : Open modal to edit mission
                                     }
-                                    if (isset($_POST['deleteBtn']) && $_POST['token'] == $_SESSION['token']) {
+                                    if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "delete" . $mission->getId()) {
                                         deleteMissionById($mission->getId());
+                            ?>
+                            <script type="text/javascript">
+                            window.location.href = 'listeMissions.php';
+                            </script>
+                            <?php
                                     }
                                 }
                             }
