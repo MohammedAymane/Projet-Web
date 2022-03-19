@@ -20,8 +20,10 @@
 
         <?php 
         include "./services/authentication.php";
+        include "./classes/operation.class.php";
         include "navbar.php";
         include "./services/dbFunctions.php";
+                
         redirectOut();
         $user_id = $_SESSION["id"];
         ?>
@@ -34,14 +36,14 @@
             </section>
 
             <section class="py-5">
-                <div class="container">
+                <form class="container" action="page_mission.php" method="POST">
                     <div class="row">
                     <p> Nouvelle opération :</p>
                     </div>
 
                     <div class="row">
                         <div class="col input-group date" data-provide="datepicker">
-                            <input type="text" class="form-control" placeholder="Date">
+                            <input type="text" class="form-control" placeholder="Date" id="date" name="date">
                             <div class="input-group-addon">
                                 <span class="glyphicon glyphicon-th"></span>
                             </div>
@@ -60,19 +62,49 @@
                         </div>
 
                         <div class="col form-outline">
-                            <input type="text" class="form-control" placeholder="Description"/>
+                            <input type="text" class="form-control" id="description" name="description" placeholder="description" required/>
                         </div>
                         
                         <div class="col form-outline">
                             <input type="number" min="0" class="form-control" placeholder="Montant" />
                         </div>
 
-                        <button type="button" class="col btn-sm btn-success">
+                        <button type="submit" class="col btn-sm btn-success">
                             Ajouter 
                         </button>
 
                     </div>
-                </div>
+
+                    <?php if (sizeOf($_POST) > 0) {
+                if ($_POST["description"] == "") {
+                    echo '    
+                    <div class="mt-3 alert alert-warning alert-dismissible fade show">
+                        <strong>Warning!</strong> Veuillez remplir tous les champs.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>';
+                } else {
+                    
+                    
+                    
+                    $op = new Operation("a", htmlspecialchars($_POST["description"]), 9, 2, 1);
+                    
+                    
+                            //insert user into database
+                            if (addOperation($op)) {
+                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
+                                <strong>Success!</strong> Opération ajoutée.
+                                <a href="page_mission.php">lien</a>
+                            </div>';
+                            } else {
+                                echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                                <strong>Erreur!</strong> Erreur lors de l'ajout.
+                            </div>";
+                            };
+                }
+            }
+            ?>
+
+                </form>
 
                 <div class="container">
                     <div class="row">
@@ -97,7 +129,7 @@
                                         
                                     </tr>
                                     <tr>
-                                        <th class="table-active">Date de début</th>
+                                        <th class="table-active">Dates de début</th>
                                         <td><?php echo $mission["debut"] ?></td>                                  
                                     </tr>
                                     <tr>

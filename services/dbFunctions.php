@@ -357,3 +357,29 @@ function getOperationByMissionId($mission_id)
         ];
     }
 }
+
+//function to add an operation
+function addOperation($newOperation)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "INSERT INTO `operations` (`date`, `description`, `montant`, `id_nomenclature`, `id_mission`) VALUES (?, ?, ?, ?, ?)";
+        $req = $pdo->prepare($sql);
+        $req->execute(array($newOperation->getDate(), $newOperation->getDescription(), $newOperation->getMontant(), $newOperation->getID_nomenclature(), $newOperation->getID_mission()));
+        //close connection
+        $pdo = null;
+
+        return [
+            "status" => "success",
+            "result" => true
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
