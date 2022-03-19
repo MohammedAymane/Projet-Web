@@ -27,9 +27,8 @@
     include "navbar.php";
     include "./services/dbFunctions.php";
     $mission_id = $_GET['mission_id'];
-
     if (!isset($_GET['mission_id'])) {
-        echo('missing il faut créer une nouvelle mission');
+        echo ('missing il faut créer une nouvelle mission');
     }
 
     redirectOut();
@@ -86,7 +85,7 @@
                             <thead>
                                 <tr>
                                     <th>Solde initial</th>
-                                    <td><?php echo $mission["solde_initial"] ?>        
+                                    <td><?php echo $mission["solde_initial"] ?>
                                 </tr>
                                 <tr>
                                     <th>Monnaie</th>
@@ -105,15 +104,15 @@
 
         <?php
         //etat de la mission
-            if ($mission["etat"] != "enCours") {
-                $hide = "py-5 d-none";
-            } else {
-                $hide = "py-5";
-            }
+        if ($mission["etat"] != "enCours") {
+            $hide = "py-5 d-none";
+        } else {
+            $hide = "py-5";
+        }
         ?>
 
-        <section class='<?php echo $hide ?>'>       
-            
+        <section class='<?php echo $hide ?>'>
+
             <form class="container" action="page_mission.php" method="POST">
                 <div class="row">
                     <p> Nouvelle opération :</p>
@@ -234,7 +233,7 @@
                                                                     $depense -= $op["montant"];
                                                                 } ?></td>
                                 <td class="table-primary"><?php echo $solde ?></td>
-                                <td class="table-primary"><?php echo $op["montant"]*$mission["taux_change"] ?></td>
+                                <td class="table-primary"><?php echo $op["montant"] * $mission["taux_change"] ?></td>
                             </tr>
                             <?php
                             }
@@ -251,7 +250,7 @@
                                     <th>Effets à recevoir</th>
                                     <td class="table-primary">€</td>
                                     <td class="table-primary"><?php if ($solde < 0) {
-                                                                    echo $solde*$mission["taux_change"];
+                                                                    echo $solde * $mission["taux_change"];
                                                                 } else {
                                                                     echo 0;
                                                                 } ?></td>
@@ -260,7 +259,7 @@
                                     <th>Effets à payer</th>
                                     <td class="table-primary">€</td>
                                     <td class="table-primary"><?php if ($solde > 0) {
-                                                                    echo $solde*$mission["taux_change"];
+                                                                    echo $solde * $mission["taux_change"];
                                                                 } else {
                                                                     echo 0;
                                                                 } ?></td>
@@ -268,7 +267,7 @@
                                 <tr>
                                     <th>Solde actuel</th>
                                     <td class="table-primary">€</td>
-                                    <td class="table-primary"><?php echo $solde*$mission["taux_change"] ?></td>
+                                    <td class="table-primary"><?php echo $solde * $mission["taux_change"] ?></td>
                                 </tr>
                             </thead>
                         </table>
@@ -279,12 +278,12 @@
                             <thead>
                                 <tr>
                                     <th>Total</th>
-                                    <td class="table-primary"><?php echo $solde*$mission["taux_change"] ?></td>
+                                    <td class="table-primary"><?php echo $solde * $mission["taux_change"] ?></td>
                                     <td class="table-primary">€</td>
                                 </tr>
                                 <tr>
                                     <th>Total dépense</th>
-                                    <td class="table-primary"><?php echo $depense*$mission["taux_change"] ?></td>
+                                    <td class="table-primary"><?php echo $depense * $mission["taux_change"] ?></td>
                                     <td class="table-primary">€</td>
                                 </tr>
                             </thead>

@@ -102,12 +102,12 @@ function addMission($newMission)
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO `missions` (`lieu`, `debut`, `fin`, `devise`, `description`, `etat`, `solde_initial`, `user_id`) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `missions` (`Id`, `lieu`, `debut`, `fin`, `devise`, `description`, `etat`, `solde_initial`, `user_id`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $req = $pdo->prepare($sql);
-        $req->execute(array($newMission->getLieu(), $newMission->getDebut(), $newMission->getFin(), $newMission->getDevise(), $newMission->getDescription(), $newMission->getEtat(), $newMission->getSolde_initial(), $newMission->getUser_id()));
+        $req->execute(array($newMission->getId(), $newMission->getLieu(), $newMission->getDebut(), $newMission->getFin(), $newMission->getDevise(), $newMission->getDescription(), $newMission->getEtat(), $newMission->getSolde_initial(), $newMission->getUser_id()));
         //close connection
         $pdo = null;
-
+        echo "**********************************************************";
         return [
             "status" => "success",
             "result" => true
@@ -135,7 +135,7 @@ function getMissions()
         $pdo = null;
         $missions = [];
         foreach ($result as $mission) {
-            $missions[] = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["id"]);
+            $missions[] = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["d"]);
         }
         return [
             "status" => "success",
@@ -164,7 +164,7 @@ function getMissionsByUserId($user_id)
         $pdo = null;
         $missions = [];
         foreach ($result as $mission) {
-            $missions[] = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["id"]);
+            $missions[] = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["Id"]);
         }
         return [
             "status" => "success",
@@ -191,7 +191,7 @@ function getMissionById($id)
         //close connection
         $pdo = null;
         $mission = $result[0];
-        $classMission = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["id"]);
+        $classMission = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["Id"]);
         return [
             "status" => "success",
             "result" => $classMission
@@ -214,17 +214,15 @@ function getMissionsByWhere($firstName, $lastName, $status)
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, M.devise
             FROM missions M LEFT JOIN users U on M.user_id = U.Id WHERE U.firstName LIKE ? AND U.lastName LIKE ? AND M.etat LIKE ?;";
-        // print_r($status);
         $req = $pdo->prepare($sql);
-        $req->execute(['%'.$firstName.'%', '%'.$lastName.'%', '%'.$status.'%']);
+        $req->execute(['%' . $firstName . '%', '%' . $lastName . '%', '%' . $status . '%']);
         $result = $req->fetchAll();
         //close connection
         $pdo = null;
-          return [
-              "status" => "success",
-              "result" => $result
-          ];
-
+        return [
+            "status" => "success",
+            "result" => $result
+        ];
     } catch (PDOException $e) {
         return [
             "status" => "error",
@@ -295,13 +293,13 @@ function getAllUsers($service)
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT DISTINCT * FROM `users` WHERE service LIKE ? ORDER BY firstName asc, lastName asc";
         $req = $pdo->prepare($sql);
-        $req->execute(['%'.$service.'%']);
+        $req->execute(['%' . $service . '%']);
         $result = $req->fetchAll();
         //close connection
         $pdo = null;
         $users = [];
-        foreach($result as $user){
-            $users[] = new User($user["firstName"],$user["lastName"],$user["email"],$user["password"],$user["role"],$user["service"],$user["phone"]);
+        foreach ($result as $user) {
+            $users[] = new User($user["firstName"], $user["lastName"], $user["email"], $user["password"], $user["role"], $user["service"], $user["phone"]);
         }
         return [
             "status" => "success",
