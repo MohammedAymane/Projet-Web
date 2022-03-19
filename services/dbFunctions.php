@@ -107,7 +107,6 @@ function addMission($newMission)
         $req->execute(array($newMission->getId(), $newMission->getLieu(), $newMission->getDebut(), $newMission->getFin(), $newMission->getDevise(), $newMission->getDescription(), $newMission->getEtat(), $newMission->getSolde_initial(), $newMission->getUser_id()));
         //close connection
         $pdo = null;
-        echo "**********************************************************";
         return [
             "status" => "success",
             "result" => true

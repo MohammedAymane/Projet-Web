@@ -35,51 +35,49 @@
         <?php
 
         if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "add") {
-            // convert date :
-            $debut = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["debut-mission"]));
-            $debut = $debut->format('Y-m-d');
-            // convert date :
-            $fin = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["fin-mission"]));
-            $fin = $fin->format('Y-m-d');
+            if ($_SESSION["token"] == $_POST["token"]) {
+                // convert date :
+                $debut = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["debut-mission"]));
+                $debut = $debut->format('Y-m-d');
+                // convert date :
+                $fin = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["fin-mission"]));
+                $fin = $fin->format('Y-m-d');
 
-            // get id nomenclature
-            // $text = htmlspecialchars($_POST["type"]);
-            // $result = getNomByText($text);
-            // $nom = $result["result"][0];
-            // $nom = $nom["id"];
+                // get id nomenclature
+                // $text = htmlspecialchars($_POST["type"]);
+                // $result = getNomByText($text);
+                // $nom = $result["result"][0];
+                // $nom = $nom["id"];
 
-            if (!($_POST["lieu-mission"]) || !($_POST["debut-mission"]) || !($_POST["fin-mission"]) || !($_POST["devise-mission"]) || !($_POST["solde-mission"]) || !($_POST["description-mission"])) {
-                echo '    
+                if (!($_POST["lieu-mission"]) || !($_POST["debut-mission"]) || !($_POST["fin-mission"]) || !($_POST["devise-mission"]) || !($_POST["solde-mission"]) || !($_POST["description-mission"])) {
+                    echo '    
                                             <div class="container mt-3 alert alert-warning alert-dismissible fade show">
                                                 <strong>Warning!</strong> Veuillez remplir tous les champs.
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                             </div>';
-            } else {
-                if ($debut > $fin) {
-                    echo '    
+                } else {
+                    if ($debut > $fin) {
+                        echo '    
                                             <div class="container mt-3 alert alert-warning alert-dismissible fade show">
                                                 <strong>Warning!</strong> Veuillez choisir des dates cohérentes.
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                             </div>';
-                } else {
-                    $newMission = new Mission(htmlspecialchars($_POST["lieu-mission"]), $debut, $fin, htmlspecialchars($_POST["devise-mission"]), htmlspecialchars($_POST["description-mission"]), "enCours", htmlspecialchars($_POST["solde-mission"]), $user_id);
-
-                    $ajout = addMission($newMission);
-                    print_r($newMission);
-                    echo "*********** <br>";
-                    print_r($ajout);
-                    if ($ajout["status"] == "success") {
-                        if ($ajout["result"]) {
-                            echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
-                                            <strong>Success!</strong> Opération ajoutée.
-                                            <a href="page_mission.php">lien</a>
-                                  </div>';
-                        }
                     } else {
-                        echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                        $newMission = new Mission(htmlspecialchars($_POST["lieu-mission"]), $debut, $fin, htmlspecialchars($_POST["devise-mission"]), htmlspecialchars($_POST["description-mission"]), "enCours", htmlspecialchars($_POST["solde-mission"]), $user_id);
+
+                        $ajout = addMission($newMission);
+                        if ($ajout["status"] == "success") {
+                            if ($ajout["result"]) {
+                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
+                                            <strong>Success!</strong> Opération ajoutée.
+                                  </div>';
+                            }
+                        } else {
+                            echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
                                             <strong>Erreur!</strong> Erreur lors de l'ajout.
                               </div>";
-                    };
+                        };
+                    }
                 }
             }
         }
@@ -222,7 +220,10 @@
                                         //TODO : Open modal to edit mission
                                     }
                                     if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "delete" . $mission->getId()) {
-                                        deleteMissionById($mission->getId());
+                                        if ($_SESSION["token"] == $_POST["token"]) {
+                                            deleteMissionById($mission->getId());
+                                        }
+
                             ?>
                             <script type="text/javascript">
                             window.location.href = 'listeMissions.php';
