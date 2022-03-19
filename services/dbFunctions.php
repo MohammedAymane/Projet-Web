@@ -204,7 +204,8 @@ function getMissionById($id)
     }
 }
 
-function getMissionsByWhere($sqlexp)
+//get Mission by different condition name of employe et status of mission
+function getMissionsByWhere($firstName, $lastName, $status)
 {
     include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
@@ -212,8 +213,35 @@ function getMissionsByWhere($sqlexp)
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, M.devise
-            FROM missions M LEFT JOIN users U on M.user_id = U.Id" . $sqlexp;
-        echo $sql;
+            FROM missions M LEFT JOIN users U on M.user_id = U.Id WHERE U.firstName LIKE ? AND U.lastName LIKE ? AND M.etat LIKE ?;";
+        // print_r($status);
+        $req = $pdo->prepare($sql);
+        $req->execute(['%'.$firstName.'%', '%'.$lastName.'%', '%'.$status.'%']);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+          return [
+              "status" => "success",
+              "result" => $result
+          ];
+
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
+
+// get all names of employes
+function getUsers()
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT DISTINCT firstName, lastName FROM `users`";
         $req = $pdo->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
@@ -231,15 +259,15 @@ function getMissionsByWhere($sqlexp)
     }
 }
 
-// get all missions
-function getUsers()
+//get all names of service
+function getService()
 {
     include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT firstName, lastName FROM `users`";
+        $sql = "SELECT DISTINCT service FROM `users`";
         $req = $pdo->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
@@ -248,6 +276,36 @@ function getUsers()
         return [
             "status" => "success",
             "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
+
+//get all informations of employes
+function getAllUsers($service)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT DISTINCT * FROM `users` WHERE service LIKE ? ORDER BY firstName asc, lastName asc";
+        $req = $pdo->prepare($sql);
+        $req->execute(['%'.$service.'%']);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+        $users = [];
+        foreach($result as $user){
+            $users[] = new User($user["firstName"],$user["lastName"],$user["email"],$user["password"],$user["role"],$user["service"],$user["phone"]);
+        }
+        return [
+            "status" => "success",
+            "result" => $users
         ];
     } catch (PDOException $e) {
         return [

@@ -27,21 +27,29 @@
         <div class="row">
             <p class="h5 col-2">Filtres : </p>
             <div class="col-2">
-                <input class="form-control" list="employeOptions" id="employe" name="employe" placeholder="Employé">
-                <datalist id="employeOptions">
+                <input class="form-control" list="firstNameOptions" id="firstName" name="firstName" placeholder="firstName">
+                <input class="form-control" list="lastNameOptions" id="lastName" name="lastName" placeholder="lastName">
+                <datalist id="firstNameOptions">
                     <?php
           $result = getUsers();
           $listeName = $result["result"];
           foreach ($listeName as $name) {
           ?>
-                    <option value="<?php echo $name['firstName'] . " " . $name['lastName'] ?>" />
-                    <?php }
-          ?>
+                    <option value="<?php echo $name['firstName'] ?>" />
+                    <?php } ?>
                 </datalist>
+                <datalist id="lastNameOptions">
+                <?php
+                foreach ($listeName as $name) {
+                ?>
+                      <option value="<?php echo $name['lastName'] ?>" />
+                      <?php } ?>
+                </datalist>
+
             </div>
             <div class="col-2">
-                <input class="form-control" list="statutOptions" id="statut" name="statut" placeholder="Statut">
-                <datalist id="statutOptions">
+                <input class="form-control" list="etatOptions" id="etat" name="etat" placeholder="État">
+                <datalist id="etatOptions">
                     <option value="en Cours">
                     <option value="finis">
                     <option value="annulee">
@@ -63,34 +71,23 @@
                     <th>Employé</th>
                     <th>Lieu</th>
                     <th>Date</th>
-                    <th>Statut</th>
+                    <th>État</th>
                     <th>Solde initial</th>
                 </tr>
             </thead>
             <tbody>
                 <?php
-        $sqlexp = "";
+        // $sqlexp = "";
+        $firstNameSelect = "";
+        $lastNameSelect = "";
+        $etatSelect = "";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-          $employeSelect = $_POST['employe'];
-          $statutSelect = $_POST['statut'];
-          if (empty($_POST['statut'])) {
-            $arr = explode(" ", $employeSelect);
-            $firstNameSelect = $arr[0];
-            $lastNameSelect = $arr[1];
-            $sqlexp = " WHERE instr(firstName,'$firstNameSelect')>0" . " AND instr(lastName,'$lastNameSelect')>0";
-          } else if (empty($_POST['employe'])) {
+          $firstNameSelect = $_POST['firstName'];
+          $lastNameSelect = $_POST['lastName'];
+          $etatSelect = $_POST['etat'];
+           }
 
-            $sqlexp = " WHERE instr(etat,'$statutSelect')>0";
-          } else {
-            $arr = explode(" ", $employeSelect);
-            $firstNameSelect = $arr[0];
-            $lastNameSelect = $arr[1];
-            $sqlexp = " WHERE instr(firstName,'$firstNameSelect')>0" . " AND instr(lastName,'$lastNameSelect')>0" . " AND instr(etat,'$statutSelect')>0";
-          }
-        }
-
-
-        $result = getMissionsByWhere($sqlexp);
+        $result = getMissionsByWhere($firstNameSelect, $lastNameSelect, $etatSelect);
         $listeMissions = $result["result"];
 
         foreach ($listeMissions as $mission) {
