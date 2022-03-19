@@ -374,7 +374,7 @@ function getMissionById2($id)
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT * FROM `missions` WHERE `id`= ?";
+        $sql = "SELECT * FROM missions JOIN devise ON missions.devise=devise.nom WHERE missions.id= ?";
         $req = $pdo->prepare($sql);
         $req->execute([$id]);
         $result = $req->fetchAll();

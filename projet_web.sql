@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : sam. 19 mars 2022 à 10:51
+-- Généré le : sam. 19 mars 2022 à 19:17
 -- Version du serveur :  5.7.34
 -- Version de PHP : 7.4.21
 
@@ -20,6 +20,28 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `projet_web`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `devise`
+--
+
+CREATE TABLE `devise` (
+  `nom` enum('dollars','euro','yen','yuan') NOT NULL,
+  `symbole` varchar(10) NOT NULL,
+  `taux_change` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `devise`
+--
+
+INSERT INTO `devise` (`nom`, `symbole`, `taux_change`) VALUES
+('dollars', '$', 0.9),
+('euro', '€', 1),
+('yen', '¥', 0.0076),
+('yuan', '¥', 0.14);
 
 -- --------------------------------------------------------
 
@@ -44,7 +66,9 @@ CREATE TABLE `missions` (
 --
 
 INSERT INTO `missions` (`Id`, `lieu`, `debut`, `fin`, `devise`, `description`, `etat`, `solde_initial`, `user_id`) VALUES
-(1, 'E', '2022-03-02', '2022-03-11', 'dollars', 'r', 'enCours', 5, 3);
+(1, 'E', '2022-03-02', '2022-03-11', 'dollars', 'r', 'enCours', 5, 3),
+(2, 'rr', '2022-03-01', '2022-03-03', 'dollars', 't', 'finis', 9, 3),
+(23432, 't', '2022-03-02', '2022-03-11', 'dollars', 'hs', 'enCours', 9, 3);
 
 -- --------------------------------------------------------
 
@@ -94,16 +118,8 @@ CREATE TABLE `operations` (
 
 INSERT INTO `operations` (`id`, `date`, `id_nomenclature`, `description`, `montant`, `id_mission`) VALUES
 (1, '2022-03-02', 'j1_12', 'r', 5, 1),
-(2, '2022-03-02', 'j1_12', 'rr', 4, 1),
-(3, '2022-04-22', 'j1_12', 'rrtt', 9, 1),
-(4, '2022-04-22', 'j1_12', 'rrtt', 9, 1),
-(5, '2022-04-22', 'j1_12', 'tyuy', 9, 1),
-(6, '2022-04-22', 'j1_12', 'tyuy', 9, 1),
-(7, '1970-01-01', 'j1_12', 'aa', 9, 1),
-(8, '1970-01-01', 'j1_12', 'aa', 9, 1),
-(9, '1970-01-01', 'j1_12', 'azety', 9, 1),
-(10, '1970-01-01', 'j1_12', 'azety', 9, 1),
-(11, '1970-01-01', 'j1_12', 'rm', -6, 1);
+(11, '1970-01-01', 'j1_12', 'rm', -6, 1),
+(12, '2022-03-30', 'j1_13', 'bts', 7, 1);
 
 -- --------------------------------------------------------
 
@@ -133,6 +149,12 @@ INSERT INTO `users` (`Id`, `role`, `firstName`, `lastName`, `email`, `phone`, `p
 --
 -- Index pour les tables déchargées
 --
+
+--
+-- Index pour la table `devise`
+--
+ALTER TABLE `devise`
+  ADD PRIMARY KEY (`nom`);
 
 --
 -- Index pour la table `missions`
@@ -171,13 +193,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT pour la table `missions`
 --
 ALTER TABLE `missions`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23433;
 
 --
 -- AUTO_INCREMENT pour la table `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT pour la table `users`
