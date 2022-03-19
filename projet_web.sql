@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.1.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:8889
--- Generation Time: Mar 19, 2022 at 09:26 AM
--- Server version: 5.7.34
--- PHP Version: 8.0.8
+-- Hôte : localhost:8889
+-- Généré le : sam. 19 mars 2022 à 10:51
+-- Version du serveur :  5.7.34
+-- Version de PHP : 7.4.21
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `projet_web`
+-- Base de données : `projet_web`
 --
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `missions`
+-- Structure de la table `missions`
 --
 
 CREATE TABLE `missions` (
@@ -39,10 +39,17 @@ CREATE TABLE `missions` (
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `missions`
+--
+
+INSERT INTO `missions` (`Id`, `lieu`, `debut`, `fin`, `devise`, `description`, `etat`, `solde_initial`, `user_id`) VALUES
+(1, 'E', '2022-03-02', '2022-03-11', 'dollars', 'r', 'enCours', 5, 3);
+
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nomenclature`
+-- Structure de la table `nomenclature`
 --
 
 CREATE TABLE `nomenclature` (
@@ -52,7 +59,7 @@ CREATE TABLE `nomenclature` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `nomenclature`
+-- Déchargement des données de la table `nomenclature`
 --
 
 INSERT INTO `nomenclature` (`id`, `parent`, `text`) VALUES
@@ -69,7 +76,7 @@ INSERT INTO `nomenclature` (`id`, `parent`, `text`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `operations`
+-- Structure de la table `operations`
 --
 
 CREATE TABLE `operations` (
@@ -81,11 +88,27 @@ CREATE TABLE `operations` (
   `id_mission` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Déchargement des données de la table `operations`
+--
+
+INSERT INTO `operations` (`id`, `date`, `id_nomenclature`, `description`, `montant`, `id_mission`) VALUES
+(1, '2022-03-02', 'j1_12', 'r', 5, 1),
+(2, '2022-03-02', 'j1_12', 'rr', 4, 1),
+(3, '2022-04-22', 'j1_12', 'rrtt', 9, 1),
+(4, '2022-04-22', 'j1_12', 'rrtt', 9, 1),
+(5, '2022-04-22', 'j1_12', 'tyuy', 9, 1),
+(6, '2022-04-22', 'j1_12', 'tyuy', 9, 1),
+(7, '1970-01-01', 'j1_12', 'aa', 9, 1),
+(8, '1970-01-01', 'j1_12', 'aa', 9, 1),
+(9, '1970-01-01', 'j1_12', 'azety', 9, 1),
+(10, '1970-01-01', 'j1_12', 'azety', 9, 1),
+(11, '1970-01-01', 'j1_12', 'rm', -6, 1);
+
 -- --------------------------------------------------------
 
 --
-
--- Table structure for table `users`
+-- Structure de la table `users`
 --
 
 CREATE TABLE `users` (
@@ -100,32 +123,33 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `users`
+-- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`Id`, `role`, `firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES
-(2, 'Employee', 'Wenjie', 'FU', 'email@gmail.com', '+33752741076', '$2y$10$VhyCtDnawUZNHRSeBfBLDO2xUjqyCN7RbZGRC95sRNhFlmTeUXt5e', 'RH');
+(2, 'Employee', 'Wenjie', 'FU', 'email@gmail.com', '+33752741076', '$2y$10$VhyCtDnawUZNHRSeBfBLDO2xUjqyCN7RbZGRC95sRNhFlmTeUXt5e', 'RH'),
+(3, 'Employee', 'hortense', 'SO', 'mail@gmail.com', '08654', '$2y$10$KqFxFVqyxRGEvtVl5hNR/ucd2W0I8P3qbl3GUtLrPbIv6Glarcxga', 'RH');
 
 --
--- Indexes for dumped tables
+-- Index pour les tables déchargées
 --
 
 --
--- Indexes for table `missions`
+-- Index pour la table `missions`
 --
 ALTER TABLE `missions`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `FK_missions` (`user_id`);
 
 --
--- Indexes for table `nomenclature`
+-- Index pour la table `nomenclature`
 --
 ALTER TABLE `nomenclature`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_nomenclature` (`parent`);
 
 --
--- Indexes for table `operations`
+-- Index pour la table `operations`
 --
 ALTER TABLE `operations`
   ADD PRIMARY KEY (`id`),
@@ -133,33 +157,33 @@ ALTER TABLE `operations`
   ADD KEY `FK_nommenclature` (`id_nomenclature`);
 
 --
--- Indexes for table `users`
+-- Index pour la table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `email` (`email`);
 
 --
--- AUTO_INCREMENT for dumped tables
+-- AUTO_INCREMENT pour les tables déchargées
 --
 
 --
--- AUTO_INCREMENT for table `missions`
+-- AUTO_INCREMENT pour la table `missions`
 --
 ALTER TABLE `missions`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `operations`
+-- AUTO_INCREMENT pour la table `operations`
 --
 ALTER TABLE `operations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
--- AUTO_INCREMENT for table `users`
+-- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
