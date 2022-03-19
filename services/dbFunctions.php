@@ -134,8 +134,8 @@ function getMissions()
         //close connection
         $pdo = null;
         $missions = [];
-        foreach($result as $mission){
-            $missions[] = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]);
+        foreach ($result as $mission) {
+            $missions[] = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["id"]);
         }
         return [
             "status" => "success",
@@ -163,8 +163,8 @@ function getMissionsByUserId($user_id)
         //close connection
         $pdo = null;
         $missions = [];
-        foreach($result as $mission){
-            $missions[] = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]);
+        foreach ($result as $mission) {
+            $missions[] = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["id"]);
         }
         return [
             "status" => "success",
@@ -176,58 +176,59 @@ function getMissionsByUserId($user_id)
             "message" => "Connection failed: " . $e->getMessage()
         ];
     }
-
 }
-function getMissionById($id){
-        include "./config/config.php";
-        // Create connection with mysql database using pdo surrended by try catch
-        try {
-            $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT * FROM `missions` WHERE `id`= ? ";
-            $req = $pdo->prepare($sql);
-            $req->execute([$id]);
-            $result = $req->fetchAll();
-            //close connection
-            $pdo = null;
-            $mission = $result[0];
-            $classMission = new Mission($mission["lieu"],$mission["debut"],$mission["fin"],$mission["devise"],$mission["description"],$mission["etat"],$mission["solde_initial"],$mission["user_id"]);
-            return [
-                "status" => "success",
-                "result" => $classMission
-            ];
-        } catch (PDOException $e) {
-            return [
-                "status" => "error",
-                "message" => "Connection failed: " . $e->getMessage()
-            ];
-        }
+function getMissionById($id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM `missions` WHERE `id`= ? ";
+        $req = $pdo->prepare($sql);
+        $req->execute([$id]);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+        $mission = $result[0];
+        $classMission = new Mission($mission["lieu"], $mission["debut"], $mission["fin"], $mission["devise"], $mission["description"], $mission["etat"], $mission["solde_initial"], $mission["user_id"], $mission["id"]);
+        return [
+            "status" => "success",
+            "result" => $classMission
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
     }
+}
 
-function getMissionsByWhere($sqlexp){
-        include "./config/config.php";
-        // Create connection with mysql database using pdo surrended by try catch
-        try {
-            $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, M.devise
-            FROM missions M LEFT JOIN users U on M.user_id = U.Id".$sqlexp;
-            echo $sql;
-            $req = $pdo->prepare($sql);
-            $req->execute();
-            $result = $req->fetchAll();
-            //close connection
-            $pdo = null;
-            return [
-                "status" => "success",
-                "result" => $result
-            ];
-        } catch (PDOException $e) {
-            return [
-                "status" => "error",
-                "message" => "Connection failed: " . $e->getMessage()
-            ];
-        }
+function getMissionsByWhere($sqlexp)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, M.devise
+            FROM missions M LEFT JOIN users U on M.user_id = U.Id" . $sqlexp;
+        echo $sql;
+        $req = $pdo->prepare($sql);
+        $req->execute();
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+        return [
+            "status" => "success",
+            "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
 }
 
 // get all missions
@@ -269,7 +270,7 @@ function getNomenclature()
         $req->execute();
         $result = $req->fetchAll();
         //close connection
-        $pdo = null;   
+        $pdo = null;
         return [
             "status" => "success",
             "result" => $result
@@ -283,23 +284,24 @@ function getNomenclature()
 }
 
 //get all nomenclature items from database
-function getNomenclatureItems() {
+function getNomenclatureItems()
+{
     include "./config/config.php";
 
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $sql = "SELECT * from nomenclature";
-        $pdoStatement=$pdo->query($sql);
+        $pdoStatement = $pdo->query($sql);
         $result = $pdoStatement->fetchAll(PDO::FETCH_ASSOC);
-        $json=json_encode($result);
+        $json = json_encode($result);
         //close connection
         $pdo = null;
         return [
             "status" => "success",
             "result" => $json
         ];
-      } catch (PDOException $e) {
+    } catch (PDOException $e) {
         return [
             "status" => "error",
             "message" => "Connection failed: " . $e->getMessage()
@@ -319,7 +321,7 @@ function getMissionById2($id)
         $req->execute([$id]);
         $result = $req->fetchAll();
         //close connection
-        $pdo = null;   
+        $pdo = null;
         return [
             "status" => "success",
             "result" => $result
@@ -346,7 +348,7 @@ function getOperationByMissionId($mission_id)
         $req->execute([$mission_id]);
         $result = $req->fetchAll();
         //close connection
-        $pdo = null;   
+        $pdo = null;
         return [
             "status" => "success",
             "result" => $result
@@ -397,10 +399,35 @@ function getNomByText($text)
         $req->execute([$text]);
         $result = $req->fetchAll();
         //close connection
-        $pdo = null;   
+        $pdo = null;
         return [
             "status" => "success",
             "result" => $result
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
+
+// delete mission by id
+function deleteMissionById($id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "DELETE FROM `missions` WHERE `id`= ?";
+        $req = $pdo->prepare($sql);
+        $req->execute([$id]);
+        //close connection
+        $pdo = null;
+        return [
+            "status" => "success",
+            "result" => true
         ];
     } catch (PDOException $e) {
         return [

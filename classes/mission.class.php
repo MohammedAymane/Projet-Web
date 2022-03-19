@@ -1,6 +1,8 @@
 <?php
 
-class Mission {
+class Mission
+{
+    private $id;
     private string $lieu;
     private $debut;
     private $fin;
@@ -10,7 +12,10 @@ class Mission {
     private float $solde_initial;
     private int $user_id;
 
-    public function __construct($lieu,$debut,$fin,$devise,$description,$etat,$solde_initial,$user_id){
+    public function __construct($lieu, $debut, $fin, $devise, $description, $etat, $solde_initial, $user_id, $id = null)
+    {
+        if ($id == null) $this->id = uniqid("mission-", true);
+        else $this->id = $id;
         $this->lieu = $lieu;
         $this->debut = $debut;
         $this->fin = $fin;
@@ -26,7 +31,7 @@ class Mission {
 
     /**
      * Get the value of lieu
-     */ 
+     */
     public function getLieu()
     {
         return $this->lieu;
@@ -34,7 +39,7 @@ class Mission {
 
     /**
      * Get the value of debut
-     */ 
+     */
     public function getDebut()
     {
         return $this->debut;
@@ -42,7 +47,7 @@ class Mission {
 
     /**
      * Get the value of fin
-     */ 
+     */
     public function getFin()
     {
         return $this->fin;
@@ -50,7 +55,7 @@ class Mission {
 
     /**
      * Get the value of devise
-     */ 
+     */
     public function getDevise()
     {
         return $this->devise;
@@ -58,7 +63,7 @@ class Mission {
 
     /**
      * Get the value of description
-     */ 
+     */
     public function getDescription()
     {
         return $this->description;
@@ -66,7 +71,7 @@ class Mission {
 
     /**
      * Get the value of etat
-     */ 
+     */
     public function getEtat()
     {
         return $this->etat;
@@ -74,7 +79,7 @@ class Mission {
 
     /**
      * Get the value of solde_initial
-     */ 
+     */
     public function getSolde_initial()
     {
         return $this->solde_initial;
@@ -82,10 +87,29 @@ class Mission {
 
     /**
      * Get the value of user_id
-     */ 
+     */
     public function getUser_id()
     {
         return $this->user_id;
     }
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }
-?>

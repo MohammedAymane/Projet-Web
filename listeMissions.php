@@ -31,7 +31,7 @@
                 <div class="row">
                     <p class="col-4">Ajouter une mission :</p>
                     <button type="button" class="col-2 btn-sm btn-success">
-                    <a href="page_mission.php" class="link-light"> Nouvelle Mission </a>
+                        <a href="page_mission.php" class="link-light"> Nouvelle Mission </a>
                     </button>
                 </div>
 
@@ -49,35 +49,48 @@
                         </thead>
                         <tbody>
                             <?php
-                                $missions = [];
-                                echo $user_id ;
-                                $result = getMissionsByUserId($user_id);
-                                if($result["status"]=="success"){
-                                    $missions = array_reverse($result["result"]);
-                                }
-                                if(!empty($missions)){
-                                    $indiceMission = count($missions);
-                                    foreach($missions as $mission){
-                                        
-                                        echo '<tr>
-                                            <th scope="col">Mission '.$indiceMission--.'</th>
-                                            <th scope="col">'.$mission->getLieu().'</th>
-                                            <th scope="col">'.$mission->getDebut().' - '.$mission->getFin().'</th>
-                                            <th scope="col">'.$mission->getSolde_initial().'</th>
-                                            <th scope="col">'.$mission->getEtat().'</th>';
-                                        if($mission->getEtat()=="enCours"){
-                                            echo '    
-                                                <th scope="col"><button type = "button" class = "btn-sm btn-warning">MODIFIER</button></th>
-                                            </tr>';
-                                        } else {
-                                            echo '    
-                                            <th scope="col"></th>
-                                        </tr>';
-                                        }
-                                        
+                            $missions = [];
+                            echo $user_id;
+                            $result = getMissionsByUserId($user_id);
+                            if ($result["status"] == "success") {
+                                $missions = array_reverse($result["result"]);
+                            }
+                            if (!empty($missions)) {
+                                $indiceMission = count($missions);
+                                foreach ($missions as $mission) {
+
+                                    echo '<tr id="' . $mission->getId() . '">
+                                            <th scope="col">Mission ' . $indiceMission-- . '</th>
+                                            <th scope="col">' . $mission->getLieu() . '</th>
+                                            <th scope="col">' . $mission->getDebut() . ' - ' . $mission->getFin() . '</th>
+                                            <th scope="col">' . $mission->getSolde_initial() . '</th>
+                                            <th scope="col">' . $mission->getEtat() . '</th>';
+
+                                    echo '<form method="POST" >';
+                                    if ($mission->getEtat() == "enCours") {
+                                        echo '
+                                                    <th scope="col">
+                                                        <button name ="editBtn" type = "submit" class = "button btn-sm btn-warning">MODIFIER</button>
+                                                        <input type="hidden" name="token" value="' . $_SESSION["token"] . '">
+                                                    </th>';
+                                    }
+                                    if ($mission->getEtat() == "annulee") {
+                                        echo '
+                                                    <th scope="col">
+                                                        <button name ="deleteBtn" type = "submit" class = "button btn-sm btn-danger">SUPPRIMER</button>
+                                                        <input type="hidden" name="token" value="' . $_SESSION["token"] . '">
+                                                   </tr>';
+                                    }
+                                    echo '</form>';
+                                    if (isset($_POST['editBtn'])) {
+                                        //TODO : Open modal to edit mission
+                                    }
+                                    if (isset($_POST['deleteBtn']) && $_POST['token'] == $_SESSION['token']) {
+                                        deleteMissionById($mission->getId());
                                     }
                                 }
-                                ?>
+                            }
+                            ?>
                         </tbody>
                     </table>
                 </div>

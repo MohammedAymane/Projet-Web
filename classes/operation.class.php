@@ -1,13 +1,18 @@
 <?php
 
-class Operation {
+class Operation
+{
+    private $id;
     private $date;
     private $description;
     private $montant;
     private $id_nomenclature;
     private $id_mission;
 
-    public function __construct($date,$description,$montant,$id_nomenclature,$id_mission) {
+    public function __construct($date, $description, $montant, $id_nomenclature, $id_mission, $id = null)
+    {
+        if ($id == null) $this->id = uniqid("op-", true);
+        else $this->id = $id;
         $this->date = $date;
         $this->description = $description;
         $this->montant = $montant;
@@ -17,7 +22,7 @@ class Operation {
 
     /**
      * Get the value of date
-     */ 
+     */
     public function getDate()
     {
         return $this->date;
@@ -25,7 +30,7 @@ class Operation {
 
     /**
      * Get the value of description
-     */ 
+     */
     public function getDescription()
     {
         return $this->description;
@@ -33,7 +38,7 @@ class Operation {
 
     /**
      * Get the value of solde_initial
-     */ 
+     */
     public function getMontant()
     {
         return $this->montant;
@@ -41,7 +46,7 @@ class Operation {
 
     /**
      * Get the value of user_id
-     */ 
+     */
     public function getID_nomenclature()
     {
         return $this->id_nomenclature;
@@ -49,10 +54,29 @@ class Operation {
 
     /**
      * Get the value of user_id
-     */ 
+     */
     public function getID_mission()
     {
         return $this->id_mission;
     }
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
 }
-?>
