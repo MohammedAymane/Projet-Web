@@ -5,7 +5,7 @@
         <meta charset="utf-8"/>
         <title>Ma mission</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
-        <link href="/Users/hortense/enregistrements/informatique/Bootstrap/bootstrap-5.1.3-dist/css/bootstrap.min.css" rel="stylesheet"
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
@@ -56,9 +56,9 @@
                                 <?php                           
                                     $nomenclature=getNomenclature();
                                     $listeNom = $nomenclature["result"];
-                                    foreach($listeNom as $nom) { ?>
-                                        <option value="1"> <?php echo $nom["text"] ?> </option>
-                                    <?php } ?>
+                                    foreach($listeNom as $nom) { 
+                                        echo "<option value=".$nom["text"]." >" .$nom["text"]. "</option>";
+                                 } ?>
                             </select>                       
                         </div>
 
@@ -79,15 +79,26 @@
                     <?php 
                     
                     if (sizeOf($_POST) > 0) {
-                        if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "") {
+
+                        // convert date :
+                        $date = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["date"]));
+                        $date = $date->format('Y-m-d');
+                        
+                        // get id nomenclature
+                        $text = htmlspecialchars($_POST["type"]);
+                        $result = getNomByText($text);
+                        $nom = $result["result"][0];
+                        $nom = $nom["id"];
+
+                        if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "" || $_POST["type"] == "") {
                             echo '    
                                 <div class="mt-3 alert alert-warning alert-dismissible fade show">
                                 <strong>Warning!</strong> Veuillez remplir tous les champs.
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 </div>';
                         } else {            
-                            $op = new Operation(htmlspecialchars(date("y-m-d",$_POST["date"])), htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), "j1_12", $mission_id);
-
+                            $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
+                            
                             //insert user into database
                             $ajout = addOperation($op);
                             if ($ajout["status"] == "success") {
@@ -187,7 +198,7 @@
                                 ?>
                                 <tr>
                                     <td><?php echo $op["date"]?></td>
-                                    <td><?php echo $op["nom"]?></td>
+                                    <td><?php echo $op["text"]?></td>
                                     <td><?php echo $op["description"]?></td>
                                     <td class="table-danger"><?php if ($op["montant"] > 0) {echo $op["montant"]; $solde += $op["montant"];}?></td>
                                     <td class="table-warning"><?php if ($op["montant"] < 0) {echo $op["montant"]; $solde += $op["montant"]; $depense -= $op["montant"];}?></td>
