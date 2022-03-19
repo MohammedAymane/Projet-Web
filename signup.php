@@ -33,7 +33,7 @@
             </div>
             <div class="form-group">
                 <label for="service">Service de rattachement</label>
-                <select required name="service" class="form-control" id="role">
+                <select required name="service" class="form-control" id="service">
                     <?php
                     echo "<option value=''>Choisissez votre service</option>";
                     foreach (["RH", "R&D", "Marketing", "Commercial"] as $menu) {
