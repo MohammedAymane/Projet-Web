@@ -103,7 +103,12 @@ $json = $nomenclature["result"];
     var ref = $('#jstree').jstree(true),
       sel = ref.get_selected();
     if(!sel.length) { return false; }
-    ref.delete_node(sel);
+
+    var node = ref.get_node(sel[0]);
+
+    if(confirm("Do you really want to delete " + node.text + " ?")){
+      ref.delete_node(sel);
+    } 
   };
 
   // 7 bind to events triggered on the tree
@@ -131,11 +136,11 @@ $json = $nomenclature["result"];
     $("#jstree").jstree({
       "core" : {
         "multiple" : false,
-        "animation" : 0,
+        "animation" : 100,
         "expand_selected_onload" : true,
         "themes" : {
           "variant" : "large",
-          "stripes" : true 
+          "stripes" : true  //the tree background is striped
         },
 
         "check_callback" : function (op, node, par, pos, more) {
