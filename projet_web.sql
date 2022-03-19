@@ -75,7 +75,7 @@ INSERT INTO `nomenclature` (`id`, `parent`, `text`) VALUES
 CREATE TABLE `operations` (
   `id` int(11) NOT NULL,
   `date` date NOT NULL,
-  `id_nomenclature` int(11) NOT NULL,
+  `id_nomenclature` varchar(200) NOT NULL,
   `description` varchar(200) NOT NULL,
   `montant` float NOT NULL,
   `id_mission` int(11) NOT NULL
@@ -84,6 +84,7 @@ CREATE TABLE `operations` (
 -- --------------------------------------------------------
 
 --
+
 -- Table structure for table `users`
 --
 
