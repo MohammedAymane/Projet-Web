@@ -2,10 +2,10 @@
 -- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3306
--- Généré le : mer. 16 mars 2022 à 09:46
--- Version du serveur : 5.7.36
--- Version de PHP : 7.4.26
+-- Host: localhost:8889
+-- Generation Time: Mar 19, 2022 at 09:26 AM
+-- Server version: 5.7.34
+-- PHP Version: 8.0.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,18 +18,17 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `projet_web`
+-- Database: `projet_web`
 --
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `missions`
+-- Table structure for table `missions`
 --
 
-DROP TABLE IF EXISTS `missions`;
-CREATE TABLE IF NOT EXISTS `missions` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `missions` (
+  `Id` int(11) NOT NULL,
   `lieu` varchar(100) NOT NULL,
   `debut` date NOT NULL,
   `fin` date NOT NULL,
@@ -37,76 +36,129 @@ CREATE TABLE IF NOT EXISTS `missions` (
   `description` varchar(200) NOT NULL,
   `etat` enum('enCours','finis','annulee','supprimee') NOT NULL,
   `solde_initial` float NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `FK_missions` (`user_id`)
+  `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `nomenclature`
+-- Table structure for table `nomenclature`
 --
 
-DROP TABLE IF EXISTS `nomenclature`;
-CREATE TABLE IF NOT EXISTS `nomenclature` (
+CREATE TABLE `nomenclature` (
   `id` varchar(60) NOT NULL,
-  `id_parent` varchar(60) NOT NULL,
-  `nom` varchar(60) NOT NULL,
-<<<<<<< HEAD
-=======
-  `id_parent` int(11),
->>>>>>> ee5c820d5ebe961e409d648bfeb4f2e41325c3c5
-  PRIMARY KEY (`id`),
-  KEY `FK_nomenclature` (`id_parent`)
+  `parent` varchar(60) NOT NULL,
+  `text` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `nomenclature`
+--
+
+INSERT INTO `nomenclature` (`id`, `parent`, `text`) VALUES
+('ajson1', '#', 'Nomenclature'),
+('j1_11', 'ajson1', 'Restauration'),
+('j1_12', 'j1_11', 'Petit déjeuné'),
+('j1_13', 'j1_11', 'Déjeuné'),
+('j1_2', 'ajson1', 'Transport'),
+('j1_3', 'ajson1', 'Logement'),
+('j1_7', 'j1_2', 'Bateau'),
+('j1_8', 'j1_2', 'Train'),
+('j1_9', 'j1_2', 'Avion');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `operations`
+-- Table structure for table `operations`
 --
 
-DROP TABLE IF EXISTS `operations`;
-CREATE TABLE IF NOT EXISTS `operations` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `operations` (
+  `id` int(11) NOT NULL,
   `date` date NOT NULL,
   `id_nomenclature` int(11) NOT NULL,
   `description` varchar(200) NOT NULL,
   `montant` float NOT NULL,
-  `id_mission` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `FK_operations` (`id_mission`),
-  KEY `FK_nommenclature` (`id_nomenclature`)
+  `id_mission` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users`
+-- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE IF NOT EXISTS `users` (
-  `Id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users` (
+  `Id` int(11) NOT NULL,
   `role` enum('Administrateur','Employee') NOT NULL DEFAULT 'Employee',
   `firstName` varchar(60) NOT NULL,
   `lastName` varchar(60) NOT NULL,
   `email` varchar(100) NOT NULL,
   `phone` varchar(20) NOT NULL,
   `password` varchar(60) NOT NULL,
-  `service` enum('Marketing','RH','R&D','Commercial','Administration') NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=latin1;
+  `service` enum('Marketing','RH','R&D','Commercial','Administration') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Déchargement des données de la table `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`Id`, `role`, `firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES
-(32, 'Administrateur', 'Administrateur 1', 'Admin', 'email1@gmail.com', '0612345678', '$2y$10$.LeTRnMUSV8ChaFkziuSTeYX2kZ7xQyDM1bXssD2EdsOi0SWMOJoa', 'Administration'),
-(33, 'Employee', 'Utilisateur 1', 'User', 'email2@gmail.com', '0612345678', '$2y$10$zSaDll2v0mwSAmWnE02NQ.NKCl.ycUNmugHOIwjXeznG/q/2TG/4u', 'RH');
+(2, 'Employee', 'Wenjie', 'FU', 'email@gmail.com', '+33752741076', '$2y$10$VhyCtDnawUZNHRSeBfBLDO2xUjqyCN7RbZGRC95sRNhFlmTeUXt5e', 'RH');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `missions`
+--
+ALTER TABLE `missions`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `FK_missions` (`user_id`);
+
+--
+-- Indexes for table `nomenclature`
+--
+ALTER TABLE `nomenclature`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_nomenclature` (`parent`);
+
+--
+-- Indexes for table `operations`
+--
+ALTER TABLE `operations`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_operations` (`id_mission`),
+  ADD KEY `FK_nommenclature` (`id_nomenclature`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `missions`
+--
+ALTER TABLE `missions`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `operations`
+--
+ALTER TABLE `operations`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
