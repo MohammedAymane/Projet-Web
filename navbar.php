@@ -45,7 +45,7 @@
                     if (isset($_SESSION["role"]) && $_SESSION["role"] == "Administrateur") {
                         echo '
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Vue globale</a>
+                        <a class="nav-link active" aria-current="page" href="ListeAllMission.php">Vue globale</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Entreprise</a>
