@@ -146,6 +146,7 @@
                     <div class="col form-outline">
                         <input type="text" class="form-control" id="description" name="description"
                             placeholder="description" required />
+                        <input hidden type="text" id="token" name="token" value="<?php echo $_SESSION["token"] ?>" />
                     </div>
 
                     <div class="col form-outline">
@@ -181,23 +182,26 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 </div>';
                     } else {
-                        $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
+                        // check token
+                        if ($_POST["token"] == $_SESSION["token"]) {
+                            $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
 
-                        //insert user into database
-                        $ajout = addOperation($op);
+                            //insert user into database
+                            $ajout = addOperation($op);
 
-                        if ($ajout["status"] == "success") {
-                            if ($ajout["result"]) {
-                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
+                            if ($ajout["status"] == "success") {
+                                if ($ajout["result"]) {
+                                    echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> Opération ajoutée.
                                 <a href="page_mission.php">lien</a>
                                 </div>';
-                            }
-                        } else {
-                            echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                                }
+                            } else {
+                                echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
                                 <strong>Erreur!</strong> Erreur lors de l'ajout.
                                 </div>";
-                        };
+                            };
+                        }
                     }
                 }
                 ?>

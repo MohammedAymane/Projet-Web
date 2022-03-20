@@ -36,7 +36,7 @@
                 <select required name="service" class="form-control" id="service">
                     <?php
                     echo "<option value=''>Choisissez votre service</option>";
-                    foreach (["RH", "R&D", "Marketing", "Commercial"] as $menu) {
+                    foreach (["RH", "R and D", "Marketing", "Commercial"] as $menu) {
                         echo "<option value='" . $menu . "'>" . $menu . "</option>";
                     }
                     ?>
@@ -77,7 +77,6 @@
                             $user = new User(htmlspecialchars($_POST["firstName"]), htmlspecialchars($_POST["lastName"]), htmlspecialchars($_POST["email"]), password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT), "Employee", htmlspecialchars($_POST["service"]), htmlspecialchars($_POST["phone"]));
                             //insert user into database
                             $response = addUser($user);
-                            print_r($response);
                             if ($response["result"] == "success") {
                                 echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> Vous êtes inscrit maintenant.
