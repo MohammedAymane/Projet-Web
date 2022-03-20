@@ -27,6 +27,7 @@
     include "navbar.php";
     include "./services/dbFunctions.php";
     $mission_id = $_GET['mission_id'];
+    $indiceMission = $_GET['number'];
     if (!isset($_GET['mission_id'])) {
         echo ('missing il faut créer une nouvelle mission');
     }
@@ -38,7 +39,7 @@
     <main>
         <section class="py-5">
             <div class="container bg-primary text-center">
-                <h1>Missions 1</h1>
+                <h1>Mission <?php echo $indiceMission ?> </h1>
             </div>
         </section>
 
@@ -113,7 +114,7 @@
 
         <section class='<?php echo $hide ?>'>
 
-            <form class="container" action="page_mission.php" method="POST">
+            <form class="container" action="page_mission.php?mission_id=<?php echo $mission_id ?>&number=<?php echo $indiceMission?>" method="POST">
                 <div class="row">
                     <p> Nouvelle opération :</p>
                 </div>
@@ -141,8 +142,6 @@
                     <div class="col form-outline">
                         <input type="text" class="form-control" id="description" name="description"
                             placeholder="description" required />
-                        <input hidden type="text" id="token" name="mission_id"
-                            value="<?php echo $_SESSION["token"] ?>" />
                     </div>
 
                     <div class="col form-outline">
@@ -153,50 +152,48 @@
                         Ajouter
                     </button>
 
+
+
                 </div>
 
                 <?php
 
                 if (sizeOf($_POST) > 0) {
 
-                    //check if token is correct
-                    if ($_POST["token"] == $_SESSION["token"]) {
-                        // convert date :
-                        $date = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["date"]));
-                        $date = $date->format('Y-m-d');
+                    // convert date :
+                    $date = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["date"]));
+                    $date = $date->format('Y-m-d');
 
-                        // get id nomenclature
-                        $text = htmlspecialchars($_POST["type"]);
-                        $result = getNomByText($text);
-                        $nom = $result["result"][0];
-                        $nom = $nom["id"];
+                    // get id nomenclature
+                    $text = htmlspecialchars($_POST["type"]);
+                    $result = getNomByText($text);
+                    $nom = $result["result"][0];
+                    $nom = $nom["id"];
 
-                        if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "" || $_POST["type"] == "") {
-                            echo '    
+                    if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "" || $_POST["type"] == "") {
+                        echo '    
                                 <div class="mt-3 alert alert-warning alert-dismissible fade show">
-                                    <strong>Warning!</strong> Veuillez remplir tous les champs.
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                <strong>Warning!</strong> Veuillez remplir tous les champs.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 </div>';
-                        } else {
-                            $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
+                    } else {
+                        $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
 
-                            //insert user into database
-                            $ajout = addOperation($op);
-                            if ($ajout["status"] == "success") {
-                                if ($ajout["result"]) {
-                                    echo '
-                                <div class="mt-3 alert alert-success alert-dismissible fade show">
-                                        <strong>Success!</strong> Opération ajoutée.
-                                        <a href="page_mission.php">lien</a>
+                        //insert user into database
+                        $ajout = addOperation($op);
+                        
+                        if ($ajout["status"] == "success") {
+                            if ($ajout["result"]) {
+                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
+                                <strong>Success!</strong> Opération ajoutée.
+                                <a href="page_mission.php">lien</a>
                                 </div>';
-                                }
-                            } else {
-                                echo "
-                                <div class='mt-3 alert alert-danger alert-dismissible fade show'>
-                                    <strong>Erreur!</strong> Erreur lors de l'ajout.
+                            }
+                        } else {
+                            echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                                <strong>Erreur!</strong> Erreur lors de l'ajout.
                                 </div>";
-                            };
-                        }
+                        };
                     }
                 }
                 ?>
@@ -304,9 +301,9 @@
     </main>
 
 
+                    
 
 
-
-</body>
+</body>                                                     
 
 </html>

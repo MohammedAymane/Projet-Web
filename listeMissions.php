@@ -186,20 +186,25 @@
                         <tbody>
                             <?php
                             $missions = [];
-                            echo $user_id;
+                            // echo $user_id;
 
                             $result = getMissionsByUserId($user_id);
                             if ($result["status"] == "success") {
                                 $missions = array_reverse($result["result"]);
                             }
                             if (!empty($missions)) {
-                                $indiceMission = count($missions);
+                                $totalMission = count($missions);
+                                //$indiceMission = count($missions);
+                                
+                                $indiceMission = $totalMission + 1;
                                 foreach ($missions as $mission) {
 
                                     $mission_id = $mission->getId();
 
+                                    $indiceMission  -= 1;                                
+
                                     echo '<tr id="' . $mission->getId() . '">
-                                            <th scope="col"><a href="page_mission.php?mission_id=' . $mission_id . '" class="link-primary"> Mission ' . $indiceMission-- . '</a></th>
+                                            <th scope="col"><a href="page_mission.php?mission_id=' . $mission_id . '&number=' . $indiceMission . '" class="link-primary"> Mission ' . $indiceMission . '</a></th>
                                             <th scope="col">' . $mission->getLieu() . '</th>
                                             <th scope="col">' . $mission->getDebut() . ' - ' . $mission->getFin() . '</th>
                                             <th scope="col">' . $mission->getSolde_initial() . '</th>

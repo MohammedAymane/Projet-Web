@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : dim. 20 mars 2022 à 10:10
+-- Généré le : dim. 20 mars 2022 à 11:31
 -- Version du serveur :  5.7.34
 -- Version de PHP : 7.4.21
 
@@ -58,7 +58,7 @@ CREATE TABLE `missions` (
   `description` varchar(200) NOT NULL,
   `etat` enum('enCours','finis','annulee','supprimee') NOT NULL,
   `solde_initial` float NOT NULL,
-  `user_id` int(11) NOT NULL
+  `user_id` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -66,10 +66,12 @@ CREATE TABLE `missions` (
 --
 
 INSERT INTO `missions` (`Id`, `lieu`, `debut`, `fin`, `devise`, `description`, `etat`, `solde_initial`, `user_id`) VALUES
-('1', 'E', '2022-03-02', '2022-03-11', 'dollars', 'r', 'enCours', 5, 3),
-('2', 'rr', '2022-03-01', '2022-03-03', 'dollars', 't', 'finis', 9, 3),
-('23432', 't', '2022-03-02', '2022-03-11', 'dollars', 'hs', 'enCours', 9, 3),
-('mission-6236fd8382f3e9.99849820', 'tt', '2022-03-15', '2022-03-28', 'euro', 'tt', 'enCours', 9, 5);
+('1', 'E', '2022-03-02', '2022-03-11', 'dollars', 'r', 'enCours', 5, '3'),
+('2', 'rr', '2022-03-01', '2022-03-03', 'dollars', 't', 'finis', 9, '3'),
+('23432', 't', '2022-03-02', '2022-03-11', 'dollars', 'hs', 'enCours', 9, '3'),
+('mission-6236fd8382f3e9.99849820', 'tt', '2022-03-15', '2022-03-28', 'euro', 'tt', 'enCours', 9, '5'),
+('mission-6236fdd0c94ed9.89201354', 'ttty', '2022-03-14', '2022-03-29', 'dollars', 're', 'enCours', 12, '5'),
+('mission-6236fdee004306.36321370', 'ttty', '2022-03-14', '2022-03-29', 'dollars', 're', 'enCours', 12, '5');
 
 -- --------------------------------------------------------
 
@@ -109,10 +111,10 @@ INSERT INTO `nomenclature` (`id`, `parent`, `text`) VALUES
 CREATE TABLE `operations` (
   `id` varchar(60) NOT NULL,
   `date` date NOT NULL,
-  `id_nomenclature` varchar(200) NOT NULL,
+  `id_nomenclature` varchar(60) NOT NULL,
   `description` varchar(200) NOT NULL,
   `montant` float NOT NULL,
-  `id_mission` int(11) NOT NULL
+  `id_mission` varchar(60) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -120,9 +122,9 @@ CREATE TABLE `operations` (
 --
 
 INSERT INTO `operations` (`id`, `date`, `id_nomenclature`, `description`, `montant`, `id_mission`) VALUES
-('1', '2022-03-02', 'j1_12', 'r', 5, 1),
-('11', '1970-01-01', 'j1_12', 'rm', -6, 1),
-('12', '2022-03-30', 'j1_13', 'bts', 7, 1);
+('1', '2022-03-02', 'j1_12', 'r', 5, '1'),
+('11', '1970-01-01', 'j1_12', 'rm', -6, '1'),
+('12', '2022-03-30', 'j1_13', 'bts', 7, '1');
 
 -- --------------------------------------------------------
 
