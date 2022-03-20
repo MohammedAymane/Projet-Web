@@ -17,3 +17,11 @@ function redirectOut()
         die();
     }
 }
+
+function redirectNoneAdmin()
+{
+    if (!isset($_SESSION["role"]) || $_SESSION["role"] != "Administrateur") {
+        header("Location:listeMissions.php");
+        die();
+    }
+}

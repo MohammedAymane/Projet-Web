@@ -12,12 +12,13 @@
 
 <body>
     <?php
-  include "services/authentication.php";
-  include "navbar.php";
-  include "services/dbFunctions.php";
-  redirectOut();
-  $user_id = $_SESSION["id"];
-  ?>
+    include "services/authentication.php";
+    include "navbar.php";
+    include "services/dbFunctions.php";
+    redirectNoneAdmin();
+    redirectOut();
+    $user_id = $_SESSION["id"];
+    ?>
 
     <div class="container-fluid p-4 bg-success text-white text-center bg-opacity-50">
         <h2>Liste tous les employés</h2>
@@ -27,16 +28,17 @@
         <div class="row">
             <p class="h5 col-2">Filtres : </p>
             <div class="col-2">
-                <input class="form-control" list="serviceOptions" id="service" name="service" placeholder="Service" >
+                <input class="form-control" list="serviceOptions" id="service" name="service" placeholder="Service">
                 <datalist id="serviceOptions">
                     <?php
-          $result = getService();
-          $listeUsers = $result["result"];
-          foreach ($listeUsers as $user) {
-          ?>
-                    <option value="<?php echo $user['service'] ?>" <?php echo (isset($_POST['service']) && $_POST['service']==$user['service'])?'selected':'';?> />
+                    $result = getService();
+                    $listeUsers = $result["result"];
+                    foreach ($listeUsers as $user) {
+                    ?>
+                    <option value="<?php echo $user['service'] ?>"
+                        <?php echo (isset($_POST['service']) && $_POST['service'] == $user['service']) ? 'selected' : ''; ?> />
                     <?php }
-          ?>
+                    ?>
                 </datalist>
             </div>
 
@@ -63,15 +65,15 @@
                 <?php
                 $serviceSelect = "";
                 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                  $serviceSelect = $_POST['service'];
-                   }
-                   // include_once("classes/user.class.php");
+                    $serviceSelect = $_POST['service'];
+                }
+                // include_once("classes/user.class.php");
 
-        $result = getAllUsers($serviceSelect);
-        $listeUsers = $result["result"];
+                $result = getAllUsers($serviceSelect);
+                $listeUsers = $result["result"];
 
-        foreach ($listeUsers as $user) {
-        ?>
+                foreach ($listeUsers as $user) {
+                ?>
                 <tr>
                     <td><?php echo $user->getFirstname() ?></td>
                     <td><?php echo $user->getLastname() ?></td>
@@ -80,7 +82,7 @@
                     <td><?php echo $user->getPhone() ?></td>
                 </tr>
                 <?php }
-        ?>
+                ?>
 
 
             </tbody>

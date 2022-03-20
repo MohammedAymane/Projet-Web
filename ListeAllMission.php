@@ -12,12 +12,13 @@
 
 <body>
     <?php
-  include "services/authentication.php";
-  include "navbar.php";
-  include "services/dbFunctions.php";
-  redirectOut();
-  $user_id = $_SESSION["id"];
-  ?>
+    include "services/authentication.php";
+    include "navbar.php";
+    include "services/dbFunctions.php";
+    redirectOut();
+    redirectNoneAdmin();
+    $user_id = $_SESSION["id"];
+    ?>
 
     <div class="container-fluid p-4 bg-success text-white text-center bg-opacity-50">
         <h2>Vue Globale</h2>
@@ -27,23 +28,24 @@
         <div class="row">
             <p class="h5 col-2">Filtres : </p>
             <div class="col-2">
-                <input class="form-control" list="firstNameOptions" id="firstName" name="firstName" placeholder="firstName">
+                <input class="form-control" list="firstNameOptions" id="firstName" name="firstName"
+                    placeholder="firstName">
                 <input class="form-control" list="lastNameOptions" id="lastName" name="lastName" placeholder="lastName">
                 <datalist id="firstNameOptions">
                     <?php
-          $result = getUsers();
-          $listeName = $result["result"];
-          foreach ($listeName as $name) {
-          ?>
+                    $result = getUsers();
+                    $listeName = $result["result"];
+                    foreach ($listeName as $name) {
+                    ?>
                     <option value="<?php echo $name['firstName'] ?>" />
                     <?php } ?>
                 </datalist>
                 <datalist id="lastNameOptions">
-                <?php
-                foreach ($listeName as $name) {
-                ?>
-                      <option value="<?php echo $name['lastName'] ?>" />
-                      <?php } ?>
+                    <?php
+                    foreach ($listeName as $name) {
+                    ?>
+                    <option value="<?php echo $name['lastName'] ?>" />
+                    <?php } ?>
                 </datalist>
 
             </div>
@@ -77,21 +79,21 @@
             </thead>
             <tbody>
                 <?php
-        // $sqlexp = "";
-        $firstNameSelect = "";
-        $lastNameSelect = "";
-        $etatSelect = "";
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-          $firstNameSelect = $_POST['firstName'];
-          $lastNameSelect = $_POST['lastName'];
-          $etatSelect = $_POST['etat'];
-           }
+                // $sqlexp = "";
+                $firstNameSelect = "";
+                $lastNameSelect = "";
+                $etatSelect = "";
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    $firstNameSelect = $_POST['firstName'];
+                    $lastNameSelect = $_POST['lastName'];
+                    $etatSelect = $_POST['etat'];
+                }
 
-        $result = getMissionsByWhere($firstNameSelect, $lastNameSelect, $etatSelect);
-        $listeMissions = $result["result"];
+                $result = getMissionsByWhere($firstNameSelect, $lastNameSelect, $etatSelect);
+                $listeMissions = $result["result"];
 
-        foreach ($listeMissions as $mission) {
-        ?>
+                foreach ($listeMissions as $mission) {
+                ?>
                 <tr>
                     <td><?php echo $mission["firstName"] . " " . $mission["lastName"] ?></td>
                     <td><?php echo $mission['lieu'] ?></td>
@@ -100,7 +102,7 @@
                     <td><?php echo $mission['solde_initial'] . " " . $mission['devise'] ?></td>
                 </tr>
                 <?php }
-        ?>
+                ?>
 
 
             </tbody>
