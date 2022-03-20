@@ -76,7 +76,9 @@
                         } else {
                             $user = new User(htmlspecialchars($_POST["firstName"]), htmlspecialchars($_POST["lastName"]), htmlspecialchars($_POST["email"]), password_hash(htmlspecialchars($_POST["password"]), PASSWORD_DEFAULT), "Employee", htmlspecialchars($_POST["service"]), htmlspecialchars($_POST["phone"]));
                             //insert user into database
-                            if (addUser($user)) {
+                            $response = addUser($user);
+                            print_r($response);
+                            if ($response["result"] == "success") {
                                 echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> Vous êtes inscrit maintenant.
                                 <a href="login.php">Connectez vous.</a>

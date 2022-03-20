@@ -14,9 +14,9 @@ function addUser($newUser)
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO `users` (`firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `users` (`id`, `firstName`, `lastName`, `email`, `phone`, `password`, `service`) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $req = $pdo->prepare($sql);
-        $req->execute(array($newUser->getFirstname(), $newUser->getLastname(), $newUser->getEmail(), $newUser->getPhone(), $newUser->getPassword(), $newUser->getService()));
+        $req->execute(array($newUser->getId(), $newUser->getFirstname(), $newUser->getLastname(), $newUser->getEmail(), $newUser->getPhone(), $newUser->getPassword(), $newUser->getService()));
         //close connection
         $pdo = null;
 
@@ -298,7 +298,7 @@ function getAllUsers($service)
         $pdo = null;
         $users = [];
         foreach ($result as $user) {
-            $users[] = new User($user["firstName"], $user["lastName"], $user["email"], $user["password"], $user["role"], $user["service"], $user["phone"]);
+            $users[] = new User($user["firstName"], $user["lastName"], $user["email"], $user["password"], $user["role"], $user["service"], $user["phone"], $user["Id"]);
         }
         return [
             "status" => "success",
@@ -509,6 +509,32 @@ function cancelMission($id)
         return [
             "status" => "success",
             "result" => true
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
+
+//create a function to get last mission by user id
+function getLastMissionByUserId($idUser)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "SELECT * FROM missions WHERE `user_id` = ? ORDER BY `debut` DESC LIMIT 1";
+        $req = $pdo->prepare($sql);
+        $req->execute([$idUser]);
+        $result = $req->fetchAll();
+        //close connection
+        $pdo = null;
+        return [
+            "status" => "success",
+            "result" => $result
         ];
     } catch (PDOException $e) {
         return [

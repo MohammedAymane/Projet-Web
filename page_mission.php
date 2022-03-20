@@ -114,7 +114,9 @@
 
         <section class='<?php echo $hide ?>'>
 
-            <form class="container" action="page_mission.php?mission_id=<?php echo $mission_id ?>&number=<?php echo $indiceMission?>" method="POST">
+            <form class="container"
+                action="page_mission.php?mission_id=<?php echo $mission_id ?>&number=<?php echo $indiceMission ?>"
+                method="POST">
                 <div class="row">
                     <p> Nouvelle opération :</p>
                 </div>
@@ -181,7 +183,7 @@
 
                         //insert user into database
                         $ajout = addOperation($op);
-                        
+
                         if ($ajout["status"] == "success") {
                             if ($ajout["result"]) {
                                 echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
@@ -301,9 +303,9 @@
     </main>
 
 
-                    
 
 
-</body>                                                     
+
+</body>
 
 </html>

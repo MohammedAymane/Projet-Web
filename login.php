@@ -36,7 +36,12 @@ if (sizeOf($_POST) > 0) {
                 $_SESSION["firstName"] = $user["result"][1][2];
                 $_SESSION["lastName"] = $user["result"][1][3];
                 $_SESSION["role"] = $user["result"][1][1];
-                header("Location:index.php");
+                $missions = getLastMissionByUserId($_SESSION["id"])["result"];
+                print_r($missions);
+                if (sizeOf($missions) <= 0) {
+                    echo "no missions";
+                    header("Location:listeMissions.php");
+                } else header("Location:page_mission.php?mission_id=" . $missions[0]["Id"]);
             }
         } else {
             echo '
