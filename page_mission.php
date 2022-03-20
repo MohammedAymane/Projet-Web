@@ -30,6 +30,8 @@
     $indiceMission = $_GET['number'];
     if (!isset($_GET['mission_id'])) {
         echo ('missing il faut créer une nouvelle mission');
+    } elseif (!isset($_GET['number']) || $_GET['number'] == "") {
+        $indiceMission = "en_cours";
     }
 
     redirectOut();
