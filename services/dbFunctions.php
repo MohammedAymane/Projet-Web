@@ -491,3 +491,29 @@ function deleteMissionById($id)
         ];
     }
 }
+
+
+// add function to cancel a mission
+function cancelMission($id)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $sql = "UPDATE `missions` SET `etat`= 'annulee' WHERE `id`= ?";
+        $req = $pdo->prepare($sql);
+        $req->execute([$id]);
+        //close connection
+        $pdo = null;
+        return [
+            "status" => "success",
+            "result" => true
+        ];
+    } catch (PDOException $e) {
+        return [
+            "status" => "error",
+            "message" => "Connection failed: " . $e->getMessage()
+        ];
+    }
+}
