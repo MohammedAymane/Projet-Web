@@ -320,7 +320,7 @@ function getNomenclature()
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT `text` FROM `nomenclature` WHERE parent != '#'";
+        $sql = "SELECT `text` FROM `nomenclature` WHERE parent != '#' AND  text != 'New node' ";
         $req = $pdo->prepare($sql);
         $req->execute();
         $result = $req->fetchAll();
@@ -424,9 +424,9 @@ function addOperation($newOperation)
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "INSERT INTO `operations` (`date`, `description`, `montant`, `id_nomenclature`, `id_mission`) VALUES (?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO `operations` (`id`, `date`, `description`, `montant`, `id_nomenclature`, `id_mission`) VALUES (?, ?, ?, ?, ?, ?)";
         $req = $pdo->prepare($sql);
-        $req->execute(array($newOperation->getDate(), $newOperation->getDescription(), $newOperation->getMontant(), $newOperation->getID_nomenclature(), $newOperation->getID_mission()));
+        $req->execute(array($newOperation->getId(), $newOperation->getDate(), $newOperation->getDescription(), $newOperation->getMontant(), $newOperation->getID_nomenclature(), $newOperation->getID_mission()));
         //close connection
         $pdo = null;
 
