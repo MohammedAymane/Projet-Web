@@ -141,6 +141,8 @@
                     <div class="col form-outline">
                         <input type="text" class="form-control" id="description" name="description"
                             placeholder="description" required />
+                        <input hidden type="text" id="token" name="mission_id"
+                            value="<?php echo $_SESSION["token"] ?>" />
                     </div>
 
                     <div class="col form-outline">
@@ -157,39 +159,44 @@
 
                 if (sizeOf($_POST) > 0) {
 
-                    // convert date :
-                    $date = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["date"]));
-                    $date = $date->format('Y-m-d');
+                    //check if token is correct
+                    if ($_POST["token"] == $_SESSION["token"]) {
+                        // convert date :
+                        $date = DateTime::createFromFormat('m/d/Y', htmlspecialchars($_POST["date"]));
+                        $date = $date->format('Y-m-d');
 
-                    // get id nomenclature
-                    $text = htmlspecialchars($_POST["type"]);
-                    $result = getNomByText($text);
-                    $nom = $result["result"][0];
-                    $nom = $nom["id"];
+                        // get id nomenclature
+                        $text = htmlspecialchars($_POST["type"]);
+                        $result = getNomByText($text);
+                        $nom = $result["result"][0];
+                        $nom = $nom["id"];
 
-                    if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "" || $_POST["type"] == "") {
-                        echo '    
+                        if ($_POST["description"] == "" || $_POST["date"] == "" || $_POST["montant"] == "" || $_POST["type"] == "") {
+                            echo '    
                                 <div class="mt-3 alert alert-warning alert-dismissible fade show">
-                                <strong>Warning!</strong> Veuillez remplir tous les champs.
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong>Warning!</strong> Veuillez remplir tous les champs.
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                 </div>';
-                    } else {
-                        $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
-
-                        //insert user into database
-                        $ajout = addOperation($op);
-                        if ($ajout["status"] == "success") {
-                            if ($ajout["result"]) {
-                                echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
-                                <strong>Success!</strong> Opération ajoutée.
-                                <a href="page_mission.php">lien</a>
-                                </div>';
-                            }
                         } else {
-                            echo "<div class='mt-3 alert alert-danger alert-dismissible fade show'>
-                                <strong>Erreur!</strong> Erreur lors de l'ajout.
+                            $op = new Operation($date, htmlspecialchars($_POST["description"]), htmlspecialchars($_POST["montant"]), $nom, $mission_id);
+
+                            //insert user into database
+                            $ajout = addOperation($op);
+                            if ($ajout["status"] == "success") {
+                                if ($ajout["result"]) {
+                                    echo '
+                                <div class="mt-3 alert alert-success alert-dismissible fade show">
+                                        <strong>Success!</strong> Opération ajoutée.
+                                        <a href="page_mission.php">lien</a>
+                                </div>';
+                                }
+                            } else {
+                                echo "
+                                <div class='mt-3 alert alert-danger alert-dismissible fade show'>
+                                    <strong>Erreur!</strong> Erreur lors de l'ajout.
                                 </div>";
-                        };
+                            };
+                        }
                     }
                 }
                 ?>

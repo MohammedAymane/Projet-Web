@@ -133,9 +133,17 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
+
                                             <label for="devise-mission" class="col-form-label">Devise:</label>
-                                            <input type="text" class="form-control" name="devise-mission"
-                                                id="devise-mission" required>
+                                            <select required name="devise-mission" id="devise-mission"
+                                                class="form-control" id="service" required>
+                                                <?php
+                                                echo "<option value=''>Choisissez la devise</option>";
+                                                foreach (["euro", "dollars", "yen", "yuan"] as $menu) {
+                                                    echo "<option value='" . $menu . "'>" . $menu . "</option>";
+                                                }
+                                                ?>
+                                            </select>
                                             <input hidden type="text" name="action" value="add">
                                             <input hidden type="text" name="token"
                                                 value="<?php echo $_SESSION["token"] ?>">
@@ -200,9 +208,9 @@
                                         echo '<form method="POST" >';
                                         echo '
                                                     <th scope="col">
-                                                        <button name ="editBtn" type = "submit" class = "button btn-sm btn-warning">MODIFIER</button>
+                                                        <button name ="cancelBtn" type = "submit" class = "button btn-sm btn-warning">ANNULER</button>
                                                         <input type="hidden" name="token" value="' . $_SESSION["token"] . '">
-                                                        <input type="hidden" name="action" value="edit' . $mission->getId() . '">
+                                                        <input type="hidden" name="action" value="cancel' . $mission->getId() . '">
                                                     </th>';
                                         echo '</form>';
                                     }
@@ -216,18 +224,23 @@
                                                    </tr>';
                                         echo '</form>';
                                     }
-                                    if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "edit" . $mission->getId()) {
-                                        //TODO : Open modal to edit mission
+                                    if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "cancel" . $mission->getId()) {
+                                        cancelMission($mission->getId());
+                                        echo '
+                                            <script>
+                                                window.location.href = "listeMissions.php";
+                                            </script>';
                                     }
                                     if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "delete" . $mission->getId()) {
                                         if ($_SESSION["token"] == $_POST["token"]) {
                                             deleteMissionById($mission->getId());
+                                            echo '
+                                            <script>
+                                                window.location.href = "listeMissions.php";
+                                            </script>';
                                         }
 
                             ?>
-                            <script type="text/javascript">
-                            window.location.href = 'listeMissions.php';
-                            </script>
                             <?php
                                     }
                                 }
