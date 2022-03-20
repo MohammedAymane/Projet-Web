@@ -51,7 +51,7 @@
                         <a class="nav-link active" aria-current="page" href="ListeAllEmployes.php">Entreprise</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Nomenclature</a>
+                        <a class="nav-link active" aria-current="page" href="nomenclature.php">Nomenclature</a>
                     </li>';
                     } ?>
 
