@@ -211,8 +211,8 @@ function getMissionsByWhere($firstName, $lastName, $status)
     try {
         $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
         $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, M.devise
-            FROM missions M LEFT JOIN users U on M.user_id = U.Id WHERE U.firstName LIKE ? AND U.lastName LIKE ? AND M.etat LIKE ?;";
+        $sql = "SELECT U.firstName, U.lastName, M.lieu, M.debut, M.fin, M.etat, M.solde_initial, D.symbole
+            FROM missions M LEFT JOIN users U on M.user_id = U.Id LEFT JOIN devise D ON M.devise = D.nom WHERE U.firstName LIKE ? AND U.lastName LIKE ? AND M.etat LIKE ?;";
         $req = $pdo->prepare($sql);
         $req->execute(['%' . $firstName . '%', '%' . $lastName . '%', '%' . $status . '%']);
         $result = $req->fetchAll();

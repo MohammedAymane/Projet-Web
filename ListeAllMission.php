@@ -99,7 +99,7 @@
                     <td><?php echo $mission['lieu'] ?></td>
                     <td><?php echo $mission['debut'] . " - " . $mission['fin'] ?></td>
                     <td><?php echo $mission['etat'] ?></td>
-                    <td><?php echo $mission['solde_initial'] . " " . $mission['devise'] ?></td>
+                    <td><?php echo $mission['solde_initial'] . " " . $mission['symbole'] ?></td>
                 </tr>
                 <?php }
                 ?>
