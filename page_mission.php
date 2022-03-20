@@ -26,12 +26,15 @@
     include "./classes/operation.class.php";
     include "navbar.php";
     include "./services/dbFunctions.php";
-    $mission_id = $_GET['mission_id'];
-    if (!isset($_GET['mission_id'])) {
-        echo ('missing il faut créer une nouvelle mission');
+    if (!isset($_GET['mission_id']) && !isset($_GET['number'])) {
+        die();
     } elseif (!isset($_GET['number']) || $_GET['number'] == "") {
         $indiceMission = "en_cours";
-    } else $indiceMission = $_GET['number'];
+        $mission_id = $_GET['mission_id'];
+    } else {
+        $indiceMission = $_GET['number'];
+        $mission_id = $_GET['mission_id'];
+    }
 
     redirectOut();
     $user_id = $_SESSION["id"];
