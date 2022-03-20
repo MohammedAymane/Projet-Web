@@ -27,6 +27,7 @@
     include "navbar.php";
     include "./services/dbFunctions.php";
     $mission_id = $_GET['mission_id'];
+    $indiceMission = $_GET['number'];
     if (!isset($_GET['mission_id'])) {
         echo ('missing il faut créer une nouvelle mission');
     }
@@ -38,7 +39,7 @@
     <main>
         <section class="py-5">
             <div class="container bg-primary text-center">
-                <h1>Missions 1</h1>
+                <h1>Mission <?php echo $indiceMission ?> </h1>
             </div>
         </section>
 
@@ -113,7 +114,7 @@
 
         <section class='<?php echo $hide ?>'>
 
-            <form class="container" action="page_mission.php" method="POST">
+            <form class="container" action="page_mission.php?mission_id=<?php echo $mission_id ?>&number=<?php echo $indiceMission?>" method="POST">
                 <div class="row">
                     <p> Nouvelle opération :</p>
                 </div>
@@ -151,6 +152,8 @@
                         Ajouter
                     </button>
 
+
+
                 </div>
 
                 <?php
@@ -178,6 +181,7 @@
 
                         //insert user into database
                         $ajout = addOperation($op);
+                        
                         if ($ajout["status"] == "success") {
                             if ($ajout["result"]) {
                                 echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
@@ -297,9 +301,9 @@
     </main>
 
 
+                    
 
 
-
-</body>
+</body>                                                     
 
 </html>
