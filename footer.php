@@ -6,6 +6,7 @@
 </head>
 <body>
 
+<div class="m-footer">
 <footer class="ui inverted vertical segment m-padded-tb-massive">
     <div class="ui center aligned container">
         <div class="ui inverted divided stackable grid">
@@ -42,6 +43,8 @@
     </div>
 
 </footer>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>

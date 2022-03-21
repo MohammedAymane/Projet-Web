@@ -30,3 +30,12 @@
 .m-opacity-mini {
     opacity: 0.8 !important;
 }
+
+.footer{
+    position: fixed !important;
+    bottom: 0 !important;
+    width: 100%;
+    left: 0 !important;
+    right: 0 !important;
+    height: 100px !important;
+}
