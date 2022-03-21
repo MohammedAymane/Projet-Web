@@ -544,37 +544,38 @@ function getLastMissionByUserId($idUser)
     }
 }
 
-function modifyAttributes($id, $fn, $ln, $mail, $phone, $password) {
-  include "./config/config.php";
-  // Create connection with mysql database using pdo surrended by try catch
-  try {
-      $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
-      $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $data = [
-          'Id' => $id,
-          'firstName' => $fn,
-          'lastName' => $ln,
-          'email' => $mail,
-          'phone' => $phone,
-          'password' => password_hash(htmlspecialchars($password), PASSWORD_DEFAULT)
-      ];
-      $sql = "UPDATE users
+function modifyAttributes($id, $fn, $ln, $mail, $phone, $password)
+{
+    include "./config/config.php";
+    // Create connection with mysql database using pdo surrended by try catch
+    try {
+        $pdo = new PDO("mysql:host=$server;dbname=$dbname", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $data = [
+            'Id' => $id,
+            'firstName' => $fn,
+            'lastName' => $ln,
+            'email' => $mail,
+            'phone' => $phone,
+            'password' => password_hash(htmlspecialchars($password), PASSWORD_DEFAULT)
+        ];
+        $sql = "UPDATE users
               SET firstName = :firstName,
                   lastName = :lastName,
                   email = :email,
                   phone = :phone,
                   password = :password
               WHERE Id= :Id";
-      $req = $pdo->prepare($sql);
-      $req->bindParam(':Id', $data['Id'], PDO::PARAM_INT);
-      $req->bindParam(':firstName', $data['firstName']);
-      $req->bindParam(':lastName', $data['lastName']);
-      $req->bindParam(':email', $data['email']);
-      $req->bindParam(':phone', $data['phone']);
-      $req->bindParam(':password', $data['password']);
-      $req->execute();
-      //close connection
-      $pdo = null;
+        $req = $pdo->prepare($sql);
+        $req->bindParam(':Id', $data['Id'], PDO::PARAM_STR);
+        $req->bindParam(':firstName', $data['firstName']);
+        $req->bindParam(':lastName', $data['lastName']);
+        $req->bindParam(':email', $data['email']);
+        $req->bindParam(':phone', $data['phone']);
+        $req->bindParam(':password', $data['password']);
+        $req->execute();
+        //close connection
+        $pdo = null;
     } catch (PDOException $e) {
         return [
             "status" => "error",

@@ -1,0 +1,51 @@
+.mt-4 {
+  background-color: rgb(83, 231, 177);
+  padding: 2%;
+  margin-bottom: 2%;
+}
+
+#cont {
+  width: 100%;
+}
+
+.image {
+  max-width: 10%;
+  max-height: 10%;
+  padding: 2%;
+}
+
+.title {
+  width: 103%;
+  background-color: rgb(232, 255, 247);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5%;
+  margin-left: -1.5%;
+}
+
+.item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+h6,
+input {
+  min-width: 15%;
+  display: inline-block;
+}
+
+button {
+  height: 60px;
+  width: 300px;
+  border: 1px solid black;
+  border-radius: 15px;
+}
+
+.footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}

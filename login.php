@@ -39,7 +39,6 @@ if (sizeOf($_POST) > 0) {
                 $_SESSION["email"] = $user["result"][1][4];
                 $_SESSION["phone"] = $user["result"][1][5];
                 $missions = getLastMissionByUserId($_SESSION["id"])["result"];
-                print_r($missions);
                 if (sizeOf($missions) <= 0) {
                     echo "no missions";
                     header("Location:listeMissions.php");

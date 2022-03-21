@@ -36,7 +36,7 @@
                                 alt="icon"></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+                        <a class="nav-link active" aria-current="page" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="listeMissions.php">Mes Missions</a>
