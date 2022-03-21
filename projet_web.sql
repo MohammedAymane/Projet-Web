@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `missions` (
   `fin` date NOT NULL,
   `devise` enum('dollars','euro','yen','yuan') NOT NULL,
   `description` varchar(200) NOT NULL,
-  `etat` enum('en ours','finis','annulee','supprimee') NOT NULL,
+  `etat` enum('en cours','finis','annulee','supprimee') NOT NULL,
   `solde_initial` float NOT NULL,
   `user_id` varchar(60) NOT NULL,
   PRIMARY KEY (`Id`),

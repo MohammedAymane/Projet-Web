@@ -11,7 +11,7 @@ class Mission
     private string $description;
     private string $etat;
     private float $solde_initial;
-    private int $user_id;
+    private string $user_id;
 
     //constructeur
     public function __construct($lieu, $debut, $fin, $devise, $description, $etat, $solde_initial, $user_id, $id = null)
