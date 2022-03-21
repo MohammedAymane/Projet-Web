@@ -56,4 +56,3 @@ try {
 //     echo 'old value'.$_POST['oldValue'];
 // else
 //     echo 'receive nothing';
-?>

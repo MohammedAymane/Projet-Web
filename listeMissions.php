@@ -63,7 +63,7 @@
                                                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                             </div>';
                     } else {
-                        $newMission = new Mission(htmlspecialchars($_POST["lieu-mission"]), $debut, $fin, htmlspecialchars($_POST["devise-mission"]), htmlspecialchars($_POST["description-mission"]), "enCours", htmlspecialchars($_POST["solde-mission"]), $user_id);
+                        $newMission = new Mission(htmlspecialchars($_POST["lieu-mission"]), $debut, $fin, htmlspecialchars($_POST["devise-mission"]), htmlspecialchars($_POST["description-mission"]), "en cours", htmlspecialchars($_POST["solde-mission"]), $user_id);
 
                         $ajout = addMission($newMission);
                         if ($ajout["status"] == "success") {
@@ -195,13 +195,13 @@
                             if (!empty($missions)) {
                                 $totalMission = count($missions);
                                 //$indiceMission = count($missions);
-                                
+
                                 $indiceMission = $totalMission + 1;
                                 foreach ($missions as $mission) {
 
                                     $mission_id = $mission->getId();
 
-                                    $indiceMission  -= 1;                                
+                                    $indiceMission  -= 1;
 
                                     echo '<tr id="' . $mission->getId() . '">
                                             <th scope="col"><a href="page_mission.php?mission_id=' . $mission_id . '&number=' . $indiceMission . '" class="link-primary"> Mission ' . $indiceMission . '</a></th>
@@ -209,7 +209,7 @@
                                             <th scope="col">' . $mission->getDebut() . ' - ' . $mission->getFin() . '</th>
                                             <th scope="col">' . $mission->getSolde_initial() . '</th>
                                             <th scope="col">' . $mission->getEtat() . '</th>';
-                                    if ($mission->getEtat() == "enCours") {
+                                    if ($mission->getEtat() == "en cours") {
                                         echo '<form method="POST" >';
                                         echo '
                                                     <th scope="col">

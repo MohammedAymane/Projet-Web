@@ -109,7 +109,7 @@
 
         <?php
         //etat de la mission
-        if ($mission["etat"] != "enCours") {
+        if ($mission["etat"] != "en cours") {
             $hide = "py-5 d-none";
         } else {
             $hide = "py-5";
