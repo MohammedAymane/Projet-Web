@@ -24,7 +24,7 @@ if (sizeOf($_POST) > 0) {
     } else {
         $user = loginUser(htmlspecialchars($_POST["email"]), htmlspecialchars($_POST["password"]));
         if ($user["status"] == "success") {
-            if (!$user["result"]) {
+            if (!$user["result"][0]) {
                 echo '
                     <div class="alert alert-danger alert-dismissible fade show">
                         <strong>Error!</strong> Email ou mot de passe incorrecte

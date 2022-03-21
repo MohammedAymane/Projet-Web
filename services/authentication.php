@@ -4,7 +4,7 @@ session_start();
 function redirectIn()
 {
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"]) {
-        header("Location:index.php");
+        header("Location:profile.php");
         die();
     }
 }

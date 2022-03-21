@@ -24,10 +24,6 @@ function addUser($newUser)
             "status" => "success",
             "result" => true
         ];
-        $s = '<div class="mt-3 alert alert-success alert-dismissible fade show">
-                                <strong>Success!</strong> Vous êtes inscrit maintenant.
-                                <a href="login.php">Connectez vous.</a>
-                            </div>';
     } catch (PDOException $e) {
         return [
             "status" => "error",
@@ -83,10 +79,9 @@ function loginUser($email, $password2)
         $result = $req->fetchAll();
         //close connection
         $pdo = null;
-        if (count($result) > 0 && password_verify($password2, $result[0]["password"]))
+        if (sizeOf($result) > 0 && password_verify($password2, $result[0]["password"]))
             return ["status" => "success", "result" => [true, $result[0]]];
-
-        return ["status" => "success", "result" => false];
+        return ["status" => "success", "result" => [false]];
     } catch (PDOException $e) {
         return [
             "status" => "error",
