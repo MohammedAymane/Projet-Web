@@ -3,7 +3,7 @@
 //configure data to connect to database
 $server = "localhost";
 $user = "root";
-$password = "root";
+$password = "";
 $dbname = "projet_web";
 
 ?>
