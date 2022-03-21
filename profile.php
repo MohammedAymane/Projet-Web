@@ -144,9 +144,8 @@ if (sizeof($_POST) > 0) {
         </form>
     </div>
 
-    <div class="footer">
-        <img src="./assets/footer.png" alt="footer">
-    </div>
+    <?php
+    include "footer.html" ?>
 
 </body>
 
