@@ -83,7 +83,6 @@
       sel = ref.get_selected();
     if(!sel.length) { return false; }
     sel = sel[0];
-    // sel = ref.create_node(sel, {"type":"file"});
     sel = ref.create_node(sel);
 
     if(sel) {
@@ -117,7 +116,6 @@
     request.open('post', 'nomenclatureHandler.php');
     request.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     request.send("id="+data.node.id+"&parent="+data.node.parent+"&text="+data.node.text+"&action="+action);
-    // alert(action + " successfully");
   }
   //bind to events triggered on the tree
   $(function () {
@@ -170,13 +168,6 @@
     $('#jstree').on("delete_node.jstree", function(e, data) {
       post("delete", data);
     });
-
-    // // interact with the tree - either way is OK
-    // $('button').on('click', function () {
-    //   $('#jstree').jstree(true).select_node('child_node_1');
-    //   $('#jstree').jstree('select_node', 'child_node_1');
-    //   $.jstree.reference('#jstree').select_node('child_node_1');
-    // });
 
   });
 </script>
