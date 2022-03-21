@@ -98,6 +98,8 @@ INSERT INTO `users` (`Id`, `role`, `firstName`, `lastName`, `email`, `phone`, `p
 COMMIT;";
   $req = $pdo->prepare($sql);
   $req->execute();
+  //close the connection
+  $pdo = null;
   echo "Base de donnée créée avec succès";
 } catch (PDOException $e) {
   return "Connection failed: " . $e->getMessage();
