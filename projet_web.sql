@@ -101,8 +101,6 @@ INSERT INTO `nomenclature` (`id`, `parent`, `text`) VALUES
 ('ajson1', '#', 'Nomenclature'),
 ('j1_1', 'ajson1', 'New node'),
 ('j1_11', 'ajson1', 'Restauration'),
-('j1_12', 'j1_11', 'Petit déjeuné'),
-('j1_13', 'j1_11', 'Déjeuné'),
 ('j1_2', 'ajson1', 'Transport'),
 ('j1_3', 'ajson1', 'Logement'),
 ('j1_4', 'j1_11', 'New node'),
