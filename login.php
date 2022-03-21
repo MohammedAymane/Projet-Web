@@ -36,6 +36,8 @@ if (sizeOf($_POST) > 0) {
                 $_SESSION["firstName"] = $user["result"][1][2];
                 $_SESSION["lastName"] = $user["result"][1][3];
                 $_SESSION["role"] = $user["result"][1][1];
+                $_SESSION["email"] = $user["result"][1][4];
+                $_SESSION["phone"] = $user["result"][1][5];
                 $missions = getLastMissionByUserId($_SESSION["id"])["result"];
                 print_r($missions);
                 if (sizeOf($missions) <= 0) {
