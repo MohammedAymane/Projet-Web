@@ -2,6 +2,7 @@
 
 class Operation
 {
+    // attributs
     private $id;
     private $date;
     private $description;
@@ -9,6 +10,7 @@ class Operation
     private $id_nomenclature;
     private $id_mission;
 
+    //constructeur
     public function __construct($date, $description, $montant, $id_nomenclature, $id_mission, $id = null)
     {
         if ($id == null) $this->id = uniqid("op-", true);
@@ -19,6 +21,8 @@ class Operation
         $this->id_nomenclature = $id_nomenclature;
         $this->id_mission = $id_mission;
     }
+
+    // methods
 
     /**
      * Get the value of date
@@ -37,7 +41,7 @@ class Operation
     }
 
     /**
-     * Get the value of solde_initial
+     * Get the value of montant
      */
     public function getMontant()
     {
@@ -45,7 +49,7 @@ class Operation
     }
 
     /**
-     * Get the value of user_id
+     * Get the value of id_nomenclature
      */
     public function getID_nomenclature()
     {
@@ -53,7 +57,7 @@ class Operation
     }
 
     /**
-     * Get the value of user_id
+     * Get the value of mission_id
      */
     public function getID_mission()
     {

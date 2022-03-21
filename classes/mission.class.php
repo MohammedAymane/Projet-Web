@@ -2,6 +2,7 @@
 
 class Mission
 {
+    //attributs
     private $id;
     private string $lieu;
     private $debut;
@@ -12,6 +13,7 @@ class Mission
     private float $solde_initial;
     private int $user_id;
 
+    //constructeur
     public function __construct($lieu, $debut, $fin, $devise, $description, $etat, $solde_initial, $user_id, $id = null)
     {
         if ($id == null) $this->id = uniqid("mission-", true);
@@ -27,7 +29,7 @@ class Mission
     }
 
 
-
+    // méthodes :
 
     /**
      * Get the value of lieu
