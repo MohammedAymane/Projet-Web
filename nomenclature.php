@@ -1,12 +1,11 @@
 <?php
-include "./services/authentication.php";
-include "navbar.php";
-include "./config/config.php";
-include "./services/dbFunctions.php";
-redirectOut();
-
-$nomenclature = getNomenclatureItems();
-$json = $nomenclature["result"];
+  include "./services/authentication.php";
+  include "navbar.php";
+  include "./config/config.php";
+  include "./services/dbFunctions.php";
+  redirectOut();
+  $nomenclature = getNomenclatureItems();
+  $json = $nomenclature["result"];
 ?>
 
 <!DOCTYPE html>
@@ -14,13 +13,13 @@ $json = $nomenclature["result"];
 <head>
   <meta charset="utf-8">
   <title>jsTree test</title>
-  <!-- 2 load the theme CSS file -->
+  <!--load the theme CSS file -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.css">
   <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
-<!-- 3 setup a container element -->
+<!--setup a container element -->
 <div class="ui container m-margin-top-large" style>
   <div class="ui top attached segment">
     <div class="ui stackable secondary four item menu">
@@ -72,9 +71,9 @@ $json = $nomenclature["result"];
 </div>
 
 
-<!-- 4 include the jQuery library -->
+<!--include the jQuery library -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>
-<!-- 5 include the minified jstree source -->
+<!--include the minified jstree source -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
 <script>
 
@@ -111,7 +110,7 @@ $json = $nomenclature["result"];
     } 
   };
 
-  // 7 bind to events triggered on the tree
+
   function post(action, data) {
     let request = new XMLHttpRequest();   
     request.open('post', 'nomenclatureHandler.php');
@@ -119,10 +118,10 @@ $json = $nomenclature["result"];
     request.send("id="+data.node.id+"&parent="+data.node.parent+"&text="+data.node.text+"&action="+action);
     // alert(action + " successfully");
   }
-
+  //bind to events triggered on the tree
   $(function () {
 
-    // search code 
+    // search node in the treee
     var to = false;
     $('#search_bar').keyup(function () {
       if(to) { clearTimeout(to); }
@@ -171,12 +170,12 @@ $json = $nomenclature["result"];
       post("delete", data);
     });
 
-    // interact with the tree - either way is OK
-    $('button').on('click', function () {
-      $('#jstree').jstree(true).select_node('child_node_1');
-      $('#jstree').jstree('select_node', 'child_node_1');
-      $.jstree.reference('#jstree').select_node('child_node_1');
-    });
+    // // interact with the tree - either way is OK
+    // $('button').on('click', function () {
+    //   $('#jstree').jstree(true).select_node('child_node_1');
+    //   $('#jstree').jstree('select_node', 'child_node_1');
+    //   $.jstree.reference('#jstree').select_node('child_node_1');
+    // });
 
   });
 </script>

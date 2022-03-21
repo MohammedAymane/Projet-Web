@@ -1,0 +1,32 @@
+/*-----margin------*/
+
+.m-margin-top-small {
+    margin-top:0.5em !important;
+}
+.m-margin-top {
+    margin-top: 1em !important;
+}
+
+.m-margin-top-large {
+    margin-top: 2em !important;
+}
+
+.m-margin-tb-tiny {
+    margin-top: 0.3em !important;
+    margin-bottom: 0.3em !important;
+}
+
+.m-margin-bottom-small {
+    margin-bottom: 0.5em !important;
+}
+
+.m-text-thin {
+    font-weight: 300 !important;
+}
+.m-text-spaced {
+    letter-spacing: 1px !important;
+}
+
+.m-opacity-mini {
+    opacity: 0.8 !important;
+}
