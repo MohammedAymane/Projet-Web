@@ -195,7 +195,6 @@
                                 if ($ajout["result"]) {
                                     echo '<div class="mt-3 alert alert-success alert-dismissible fade show">
                                 <strong>Success!</strong> Opération ajoutée.
-                                <a href="page_mission.php">lien</a>
                                 </div>';
                                 }
                             } else {
