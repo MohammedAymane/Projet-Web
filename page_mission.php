@@ -55,6 +55,16 @@
 
                 <?php
                 $result = getMissionById2($mission_id);
+                if (sizeof($result["result"]) == 0) {
+                    echo '
+                        <div class="d-flex justify-content-center align-items-center" id="main">
+                            <h1 class="me-3 pe-3 align-top border-end inline-block align-content-center">404</h1>
+                            <div class="inline-block align-middle">
+                                <h2 class="font-weight-normal lead" id="desc">The page you requested was not found.</h2>
+                            </div>
+                        </div>';
+                    die();
+                }
                 $mission = $result["result"][0];
                 $solde = $mission["solde_initial"];
                 ?>
