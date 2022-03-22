@@ -264,9 +264,6 @@
             </div>
         </section>
     </main>
-    <!-- include the footer -->
-    <?php
-    include "footer.html" ?>
 </body>
 
 </html>

@@ -144,9 +144,6 @@ if (sizeof($_POST) > 0) {
         </form>
     </div>
 
-    <?php
-    include "footer.html" ?>
-
 </body>
 
 </html>
