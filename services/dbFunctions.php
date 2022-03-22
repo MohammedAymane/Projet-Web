@@ -142,7 +142,7 @@ function getMissions()
         ];
     }
 }
-// get all missions from a user
+// get all missions from a user knowing its id
 function getMissionsByUserId($user_id)
 {
     include "./config/config.php";
@@ -171,6 +171,8 @@ function getMissionsByUserId($user_id)
         ];
     }
 }
+
+// get a mission with the id of the mission
 function getMissionById($id)
 {
     include "./config/config.php";
