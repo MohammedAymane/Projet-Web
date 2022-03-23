@@ -1,6 +1,6 @@
 <?php
 
-// BLANCHOT Thomas
+// Binome 6 : OUGGADI Mohammed Aymane et BLANCHOT Thomas
 
 include "./services/authentication.php";
 redirectOut();
