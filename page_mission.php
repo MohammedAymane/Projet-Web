@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 
 <html>
-
+<!-- SOULIÉ Hortense -->
 <head>
     <meta charset="utf-8" />
     <title>Ma mission</title>
@@ -18,8 +18,7 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
     <!-- Extension DATEPICKER -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
 
     <?php
     include "./services/authentication.php";
@@ -41,6 +40,7 @@
     ?>
 
     <main>
+        <!-- section qui affiche les informations de la mission -->
         <section class="py-5">
             <div class="container bg-primary text-center">
                 <h1>Mission <?php echo $indiceMission ?> </h1>
@@ -54,7 +54,8 @@
                 </div>
 
                 <?php
-                $result = getMissionById2($mission_id);
+                // get all attributes for the corresponding mission with its corresponding devise
+                $result = getMissionDeviseById($mission_id);
                 if (sizeof($result["result"]) == 0) {
                     echo '
                         <div class="d-flex justify-content-center align-items-center" id="main">
@@ -66,6 +67,8 @@
                     die();
                 }
                 $mission = $result["result"][0];
+
+                //solde de la mission
                 $solde = $mission["solde_initial"];
                 ?>
 
@@ -128,6 +131,7 @@
 
         <section class='<?php echo $hide ?>'>
 
+            <!-- formulaire pour ajouter une nouvelle opération -->
             <form class="container"
                 action="page_mission.php?mission_id=<?php echo $mission_id ?>&number=<?php echo $indiceMission ?>"
                 method="POST">
@@ -220,6 +224,7 @@
             </form>
         </section>
 
+        <!-- section qui affiche toute les opérations de la mission -->
         <section class="py-5">
             <div class="container">
                 <div class="row">
@@ -318,9 +323,6 @@
 
 
     </main>
-
-
-
 
     <?php
     include "footer.html" ?>

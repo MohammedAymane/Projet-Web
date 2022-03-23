@@ -1,5 +1,5 @@
 <?php
-
+// Binôme 4 : FU Wenjie, XIN Yuhua
 include "./config/config.php";
 // update one node in nomenclature
 try {

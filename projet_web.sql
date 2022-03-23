@@ -7,6 +7,8 @@
 -- Version du serveur : 5.7.36
 -- Version de PHP : 7.4.26
 
+-- OUGGADI Mohammed Aymane
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";

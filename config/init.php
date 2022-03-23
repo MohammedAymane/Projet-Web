@@ -1,5 +1,5 @@
 <?php
-
+// OUGGADI Mohammed Aymane
 include "config.php";
 // Create connection with mysql database using pdo surrended by try catch
 

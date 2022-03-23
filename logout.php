@@ -1,4 +1,7 @@
 <?php
+
+// OUGGADI Mohammed Aymane
+
 session_start();
 unset($_SESSION["loggedIn"]);
 unset($_SESSION["token"]);

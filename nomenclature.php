@@ -1,4 +1,7 @@
 <?php
+
+  // Binôme 4 : FU Wenjie, XIN Yuhua
+  
   include "./services/authentication.php";
   include "navbar.php";
   include "./config/config.php";

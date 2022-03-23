@@ -1,4 +1,7 @@
 <?php
+
+// BLANCHOT Thomas
+
 include "./services/authentication.php";
 redirectOut();
 include "./services/dbFunctions.php";

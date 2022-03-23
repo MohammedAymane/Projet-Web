@@ -1,4 +1,5 @@
 <?php
+// OUGGADI Mohammed Aymane
 session_start();
 // create function to redirect to a page
 function redirectIn()

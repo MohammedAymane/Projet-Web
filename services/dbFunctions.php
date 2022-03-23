@@ -309,7 +309,7 @@ function getAllUsers($service)
     }
 }
 
-// get all nomenclature
+// get all the names inside the nomenclature database
 function getNomenclature()
 {
     include "./config/config.php";
@@ -361,7 +361,8 @@ function getNomenclatureItems()
     }
 }
 
-function getMissionById2($id)
+// get all attributes from a mission and its corresponding devise 
+function getMissionDeviseById($id)
 {
     include "./config/config.php";
     // Create connection with mysql database using pdo surrended by try catch
@@ -439,6 +440,7 @@ function addOperation($newOperation)
     }
 }
 
+// get all attributs from nomenclature with corresponding text
 function getNomByText($text)
 {
     include "./config/config.php";

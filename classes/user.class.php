@@ -1,4 +1,5 @@
 <?php
+// OUGGADI Mohammed Aymane
 //create a class user with attributes firstname, lastname, email, password, role, service
 class User
 {
