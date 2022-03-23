@@ -22,6 +22,7 @@
 
     <?php
     include "./services/authentication.php";
+    redirectOut();
     include "./classes/operation.class.php";
     include "navbar.php";
     include "./services/dbFunctions.php";
@@ -35,7 +36,6 @@
         $mission_id = $_GET['mission_id'];
     }
 
-    redirectOut();
     $user_id = $_SESSION["id"];
     ?>
 
