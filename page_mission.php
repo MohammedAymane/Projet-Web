@@ -130,9 +130,20 @@
         ?>
 
         <section class='<?php echo $hide ?>'>
+            <?php
+                // bouton terminer la mission
+                echo '<form class = "container" method="POST" action="listeMissions.php" >';
+                echo '
+                            <div class = "col1">
+                                <button name ="finishBtn" type = "submit" class = "button btn btn-warning">Terminer la mission</button>
+                                <input type="hidden" name="token" value="' . $_SESSION["token"] . '">
+                                <input type="hidden" name="action" value="finish' . $mission_id . '">
+                            </div>';
+                echo '</form>';
+            ?>
 
             <!-- formulaire pour ajouter une nouvelle opération -->
-            <form class="container"
+            <form class="container py-3"
                 action="page_mission.php?mission_id=<?php echo $mission_id ?>&number=<?php echo $indiceMission ?>"
                 method="POST">
                 <div class="row">
@@ -314,6 +325,7 @@
                                     <td class="table-primary"><?php echo $depense * $mission["taux_change"] ?></td>
                                     <td class="table-primary">€</td>
                                 </tr>
+                               
                             </thead>
                         </table>
                     </div>

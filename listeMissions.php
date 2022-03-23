@@ -229,7 +229,7 @@
                                                     </th>';
                                         echo '</form>';
                                     }
-                                    if ($mission->getEtat() == "annulee") { // if th mission is canceled, the user can delete it
+                                    if ($mission->getEtat() == "annulee") { // if the mission is canceled, the user can delete it
                                         echo '<form method="POST" >';
                                         echo '
                                                     <th scope="col">
@@ -251,6 +251,16 @@
                                     if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "delete" . $mission->getId()) {
                                         if ($_SESSION["token"] == $_POST["token"]) {
                                             deleteMissionById($mission->getId());
+                                            echo '
+                                            <script>
+                                                window.location.href = "listeMissions.php";
+                                            </script>';
+                                        }
+                                    }
+                                     // terminating a mission
+                                     if (sizeOf($_POST) > 0 && isset($_POST["action"]) && $_POST["action"] == "finish" . $mission->getId()) {
+                                        if ($_SESSION["token"] == $_POST["token"]) {
+                                            finishMission($mission->getId());
                                             echo '
                                             <script>
                                                 window.location.href = "listeMissions.php";
